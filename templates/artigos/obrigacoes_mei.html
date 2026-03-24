@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Obrigações do MEI | O que você precisa fazer todo mês e ano{% endblock %}
+{% block icon %}list-check{% endblock %}
+{% block page_title %}Obrigações do MEI: Guia Completo{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="alert alert-info mb-4">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            Ser MEI é simples, mas exige <strong>responsabilidades mensais e anuais</strong>!
+        </div>
+        
+        <h2>Quais são as obrigações do MEI?</h2>
+        <p>Quando você se torna um Microempreendedor Individual, adquire direitos e deveres. As obrigações são divididas em <strong>mensais</strong> e <strong>anuais</strong>. Ignorar essas responsabilidades pode gerar multas, juros e até a exclusão do regime MEI.</p>
+        
+        <h2>Obrigações Mensais</h2>
+        
+        <div class="card bg-light border-0 mb-3">
+            <div class="card-body">
+                <h5 class="fw-bold" style="color: #667eea;">📅 Pagamento do DAS (Documento de Arrecadação do Simples Nacional)</h5>
+                <p>O DAS é o imposto mensal do MEI. O valor varia conforme sua atividade:</p>
+                <ul>
+                    <li><strong>Comércio e Indústria:</strong> R$ 71,60</li>
+                    <li><strong>Serviços:</strong> R$ 72,60 (mais R$ 5,00 de ISS se houver imposto municipal)</li>
+                </ul>
+                <p><strong>Vencimento:</strong> Todo dia 20 de cada mês. O pagamento pode ser feito pelo app MEI, site do Simples Nacional ou pelo banco.</p>
+                <div class="alert alert-warning mt-2">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <strong>Atenção:</strong> O atraso no pagamento gera multa de 2% ao mês + juros Selic. Se atrasar por mais de 3 meses, você pode perder os benefícios previdenciários.
+                </div>
+            </div>
+        </div>
+        
+        <div class="card bg-light border-0 mb-3">
+            <div class="card-body">
+                <h5 class="fw-bold" style="color: #667eea;">📄 Emissão de Notas Fiscais</h5>
+                <p>Você é obrigado a emitir nota fiscal quando vender para outra empresa (Pessoa Jurídica). Para vendas para pessoa física (PJ), a emissão é opcional, mas recomendada para comprovar faturamento.</p>
+                <p>A nota fiscal pode ser emitida pelo portal da prefeitura da sua cidade ou pelo sistema Nota Fiscal Fácil. Verifique com a secretaria da fazenda municipal.</p>
+            </div>
+        </div>
+        
+        <div class="card bg-light border-0 mb-3">
+            <div class="card-body">
+                <h5 class="fw-bold" style="color: #667eea;">💼 Controle de Faturamento</h5>
+                <p>Mantenha um registro organizado de todas as suas vendas. Pode ser uma planilha simples com data, cliente, valor e forma de pagamento. Isso vai facilitar sua Declaração Anual.</p>
+            </div>
+        </div>
+        
+        <h2 class="mt-4">Obrigações Anuais</h2>
+        
+        <div class="card bg-light border-0 mb-3">
+            <div class="card-body">
+                <h5 class="fw-bold" style="color: #667eea;">📊 Declaração Anual do MEI (DASN-SIMEI)</h5>
+                <p>Todo ano, até <strong>31 de maio</strong>, você precisa declarar seu faturamento do ano anterior. A declaração é feita online no Portal do Empreendedor e é <strong>obrigatória mesmo se você não faturou nada</strong>.</p>
+                <p><strong>O que declarar:</strong> O valor total que você faturou durante o ano. Se ultrapassou R$ 81.000, você precisará migrar para ME (Microempresa) e pagar impostos retroativos.</p>
+                <div class="alert alert-info mt-2">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <strong>Dica:</strong> Guarde todos os comprovantes de pagamento do DAS. Eles comprovam que você está em dia com a previdência.
+                </div>
+            </div>
+        </div>
+        
+        <div class="card bg-light border-0 mb-3">
+            <div class="card-body">
+                <h5 class="fw-bold" style="color: #667eea;">📋 Relatório de Faturamento</h5>
+                <p>Embora não seja uma obrigação legal, manter um relatório de faturamento mensal ajuda a controlar se você está próximo do limite do MEI. Use nossa <a href="/simulador-mei">calculadora MEI</a> para acompanhar!</p>
+            </div>
+        </div>
+        
+        <h2 class="mt-4">O que acontece se eu descumprir as obrigações?</h2>
+        
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="card border-0 bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="text-danger">❌ Pagamento do DAS atrasado</h5>
+                        <p>Multa de 2% + juros Selic. Perda de benefícios previdenciários após 3 meses de atraso.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="text-danger">❌ Declaração Anual fora do prazo</h5>
+                        <p>Multa mínima de R$ 50,00 e você fica com o CPF irregular, impedindo empréstimos e compras financiadas.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="text-danger">❌ Faturamento acima do limite</h5>
+                        <p>Se ultrapassar R$ 81.000, você precisa migrar para ME. Se não fizer, pode ser excluído do MEI e pagar impostos retroativos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="text-danger">❌ Não emitir nota quando obrigado</h5>
+                        <p>Multas municipais e risco de perder o cliente (empresas exigem nota fiscal para comprovar despesas).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="mt-4">Checklist do MEI: O que fazer todo mês</h2>
+        <div class="bg-white p-4 rounded shadow-sm mb-4">
+            <ul class="list-unstyled">
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> ✅ Pagar o DAS até o dia 20</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> ✅ Emitir notas fiscais quando vender para PJ</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> ✅ Anotar todas as vendas em uma planilha</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> ✅ Guardar comprovantes de pagamento</li>
+            </ul>
+        </div>
+        
+        <h2 class="mt-4">Checklist do MEI: O que fazer todo ano</h2>
+        <div class="bg-white p-4 rounded shadow-sm mb-4">
+            <ul class="list-unstyled">
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> ✅ Até 31 de maio: Declarar faturamento no DASN-SIMEI</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> ✅ Verificar se não ultrapassou o limite de R$ 81.000</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i> ✅ Atualizar cadastro se mudou de endereço ou atividade</li>
+            </ul>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/simulador-mei" class="btn btn-primary">
+                <i class="bi bi-calculator me-2"></i>Simular seu DAS agora
+            </a>
+            <a href="/artigos/teto-faturamento" class="btn btn-outline-primary ms-2">
+                <i class="bi bi-graph-up me-2"></i>Ver limite de faturamento
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

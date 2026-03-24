@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Simulador MEI | Calcule seu DAS e veja o limite de faturamento{% endblock %}
+{% block icon %}calculator-fill{% endblock %}
+{% block page_title %}Simulador MEI - Calcule seu Imposto{% endblock %}
+
+{% block content %}
+<!-- SEÇÃO DE CONTEÚDO RICO -->
+<div class="content-section mb-5">
+    <p class="lead">Descubra exatamente quanto você vai pagar de <strong>DAS</strong> (Documento de Arrecadação do Simples Nacional) como Microempreendedor Individual.</p>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="p-3 rounded" style="background: #F8F9FA;">
+                <h5 class="fw-bold" style="color: #2E8B57;"><i class="bi bi-question-circle me-2"></i>Como funciona o imposto do MEI?</h5>
+                <p class="small mb-0">O MEI paga um valor fixo mensal chamado DAS, que inclui INSS (5% do salário mínimo) e, dependendo da atividade, ICMS ou ISS.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 rounded" style="background: #F8F9FA;">
+                <h5 class="fw-bold" style="color: #2E8B57;"><i class="bi bi-calculator me-2"></i>Valores 2026</h5>
+                <p class="small mb-0">Comércio/Indústria: R$ 71,60 | Serviços: R$ 72,60 (+ R$ 5,00 ISS se houver imposto municipal)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FORMULÁRIO -->
+<h2 class="h4 mb-3" style="color: #0B2B40;">Calcule seu DAS mensal</h2>
+<form method="POST" class="row g-4">
+    <div class="col-md-6">
+        <label class="form-label">
+            <i class="bi bi-currency-dollar me-2" style="color: #2E8B57;"></i>
+            Faturamento mensal (R$)
+        </label>
+        <input type="number" step="0.01" name="faturamento_mensal" class="form-control form-control-lg" 
+               required placeholder="Ex: 5000" value="{{ request.form.faturamento_mensal if request.form.faturamento_mensal }}">
+        <small class="text-muted">Digite o valor que você fatura por mês</small>
+    </div>
+    
+    <div class="col-md-6">
+        <label class="form-label">
+            <i class="bi bi-folder me-2" style="color: #2E8B57;"></i>
+            Anexo de atividade
+        </label>
+        <select name="anexo" class="form-select form-select-lg" required>
+            <option value="I" {% if request.form.anexo == 'I' %}selected{% endif %}>Anexo I - Comércio, Indústria, Transporte de Carga</option>
+            <option value="II" {% if request.form.anexo == 'II' %}selected{% endif %}>Anexo II - Serviços em geral</option>
+            <option value="III" {% if request.form.anexo == 'III' %}selected{% endif %}>Anexo III - Serviços (advocacia, medicina, engenharia)</option>
+        </select>
+        <small class="text-muted">Escolha de acordo com sua atividade</small>
+    </div>
+    
+    <div class="col-12 text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-lg px-5">
+            <i class="bi bi-calculator me-2"></i>Calcular DAS
+        </button>
+    </div>
+</form>
+
+<!-- RESULTADO -->
+{% if resultado %}
+<div class="result-card">
+    <h3 class="h5 mb-4" style="color: #2E8B57;">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        Resultado da Simulação
+    </h3>
+    
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="stat-box">
+                <div class="stat-label">DAS mensal</div>
+                <div class="result-number">R$ {{ resultado.das_pagar }}</div>
+                <small class="text-muted">Valor a pagar todo mês</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-box">
+                <div class="stat-label">Faturamento anual</div>
+                <div class="stat-value">R$ {{ "%.2f"|format(resultado.faturamento_anual) }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-box">
+                <div class="stat-label">Limite MEI</div>
+                <div class="stat-value">R$ {{ "%.2f"|format(resultado.limite_anual) }}</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Barra de progresso do limite -->
+    <div class="mt-3">
+        <label class="form-label fw-bold">Limite de faturamento anual utilizado:</label>
+        <div class="progress">
+            <div class="progress-bar {% if resultado.percentual_limite > 90 %}bg-warning{% elif resultado.percentual_limite > 100 %}bg-danger{% endif %}" 
+                 style="width: {{ resultado.percentual_limite }}%;">
+                {{ resultado.percentual_limite }}%
+            </div>
+        </div>
+        <div class="d-flex justify-content-between mt-1">
+            <small>0%</small>
+            <small>50%</small>
+            <small>100%</small>
+        </div>
+    </div>
+    
+    <!-- Detalhes adicionais -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="bg-white p-3 rounded shadow-sm">
+                <p class="mb-1"><strong>📊 Anexo selecionado:</strong> {{ resultado.nome_anexo }}</p>
+                <p class="mb-0 small text-muted">{{ resultado.descricao_anexo }}</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="bg-white p-3 rounded shadow-sm">
+                <p class="mb-1"><strong>💰 Alíquota efetiva:</strong> {{ resultado.aliquota }}%</p>
+                <p class="mb-0 small text-muted">Baseado no seu faturamento mensal</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Alertas -->
+    {% if resultado.alerta %}
+    <div class="alert alert-{{ resultado.classe_alerta }}-custom mt-4 mb-0">
+        <i class="bi bi-{% if resultado.classe_alerta == 'danger' %}exclamation-triangle{% else %}info-circle{% endif %}-fill me-2"></i>
+        {{ resultado.alerta }}
+    </div>
+    {% else %}
+    <div class="alert alert-success-custom mt-4 mb-0">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <strong>Parabéns!</strong> Seu faturamento está dentro do limite do MEI. Continue acompanhando para não ultrapassar o teto anual.
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<!-- DICAS ADICIONAIS -->
+<div class="mt-5 p-4 rounded" style="background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);">
+    <h3 class="h5 mb-3" style="color: #2E8B57;">
+        <i class="bi bi-star-fill me-2"></i>Dicas para o MEI
+    </h3>
+    <div class="row">
+        <div class="col-md-4">
+            <p><strong>📅 Pague o DAS em dia</strong><br>O atraso gera multa de 2% ao mês + juros Selic</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>📊 Emita notas fiscais</strong><br>Clientes pessoa jurídica exigem nota. Use o portal da prefeitura</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>📑 Declaração Anual</strong><br>Até 31 de maio, declare seu faturamento do ano anterior</p>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <a href="/artigos/guia-impostos-mei" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-book me-2"></i>Leia o guia completo de impostos
+        </a>
+    </div>
+</div>
+{% endblock %}

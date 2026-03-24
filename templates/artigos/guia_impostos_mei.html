@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Guia de Impostos MEI | Como calcular o DAS e outras obrigações{% endblock %}
+{% block icon %}calculator-fill{% endblock %}
+{% block page_title %}Guia Completo de Impostos do MEI{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="alert alert-info mb-4">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <strong>Entenda seus impostos:</strong> Como MEI, você paga apenas o DAS mensal. Sem complicações!
+        </div>
+        
+        <h2>Quais impostos o MEI paga?</h2>
+        <p>O MEI paga apenas um tributo único mensal: o <strong>DAS (Documento de Arrecadação do Simples Nacional)</strong>. Esse valor inclui:</p>
+        
+        <div class="row mt-3 mb-4">
+            <div class="col-md-4">
+                <div class="card border-0 bg-light text-center p-3">
+                    <i class="bi bi-shield-check fs-1" style="color: #667eea;"></i>
+                    <h5 class="mt-2">INSS</h5>
+                    <p>5% do salário mínimo<br>(aposentadoria, auxílio-doença)</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 bg-light text-center p-3">
+                    <i class="bi bi-shop fs-1" style="color: #667eea;"></i>
+                    <h5 class="mt-2">ICMS</h5>
+                    <p>Para comércio/indústria<br>(R$ 1,00 fixo incluído)</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 bg-light text-center p-3">
+                    <i class="bi bi-briefcase fs-1" style="color: #667eea;"></i>
+                    <h5 class="mt-2">ISS</h5>
+                    <p>Para serviços<br>(R$ 5,00 para maioria)</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Valores do DAS por atividade (2026)</h2>
+        
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tipo de Atividade</th>
+                        <th>Valor do DAS</th>
+                        <th>Composição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Comércio, Indústria, Transporte de Carga</td>
+                        <td><strong>R$ 71,60</strong></td>
+                        <td>INSS (R$ 70,60) + ICMS (R$ 1,00)</td>
+                    </tr>
+                    <tr>
+                        <td>Serviços (sem ISS municipal)</td>
+                        <td><strong>R$ 70,60</strong></td>
+                        <td>Apenas INSS (sem ICMS/ISS)</td>
+                    </tr>
+                    <tr>
+                        <td>Serviços (com ISS municipal)</td>
+                        <td><strong>R$ 75,60</strong></td>
+                        <td>INSS (R$ 70,60) + ISS (R$ 5,00)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Importante:</strong> Os valores do INSS são atualizados todo ano conforme o salário mínimo. O ICMS e ISS podem variar conforme a legislação do seu estado/município.
+        </div>
+        
+        <h2 class="mt-4">Como pagar o DAS?</h2>
+        
+        <div class="card border-0 mb-3">
+            <div class="card-body bg-white shadow-sm">
+                <h5 class="fw-bold" style="color: #667eea;">1. Pelo App MEI (mais fácil)</h5>
+                <p>Baixe o aplicativo "MEI" na Play Store ou App Store. Nele você pode gerar o boleto e pagar diretamente pelo celular.</p>
+            </div>
+        </div>
+        
+        <div class="card border-0 mb-3">
+            <div class="card-body bg-white shadow-sm">
+                <h5 class="fw-bold" style="color: #667eea;">2. Pelo Portal do Simples Nacional</h5>
+                <p>Acesse <a href="https://www8.receita.fazenda.gov.br/SimplesNacional/" target="_blank">portal do Simples Nacional</a>, informe seu CNPJ e gere o DAS para pagamento em qualquer banco.</p>
+            </div>
+        </div>
+        
+        <div class="card border-0 mb-3">
+            <div class="card-body bg-white shadow-sm">
+                <h5 class="fw-bold" style="color: #667eea;">3. Pagamento automático (alguns bancos)</h5>
+                <p>Bancos como Caixa, Banco do Brasil e Bradesco permitem débito automático do DAS. Consulte seu gerente.</p>
+            </div>
+        </div>
+        
+        <h2 class="mt-4">O que fazer se atrasar o DAS?</h2>
+        <p>Se você perder o prazo de pagamento (dia 20 de cada mês), o sistema gera automaticamente multa e juros:</p>
+        <ul>
+            <li><strong>Multa:</strong> 2% sobre o valor do DAS</li>
+            <li><strong>Juros:</strong> Selic acumulada desde o vencimento</li>
+        </ul>
+        
+        <div class="alert alert-danger mt-3">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Cuidado:</strong> Se você atrasar o pagamento por mais de 3 meses consecutivos, perde o direito aos benefícios previdenciários (aposentadoria, auxílio-doença).
+        </div>
+        
+        <h2 class="mt-4">Declaração Anual de Faturamento (DASN-SIMEI)</h2>
+        <p>Além do DAS mensal, todo MEI precisa fazer a Declaração Anual até <strong>31 de maio</strong>. Nela você informa:</p>
+        <ul>
+            <li>Faturamento total do ano anterior</li>
+            <li>Valores recebidos de outras empresas (se aplicável)</li>
+            <li>Atualização de dados cadastrais</li>
+        </ul>
+        
+        <div class="alert alert-info mt-3">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <strong>Dica:</strong> Mesmo que você não tenha faturado nada no ano, a declaração é obrigatória. A falta dela gera multa de R$ 50,00 e deixa seu CPF irregular.
+        </div>
+        
+        <h2 class="mt-4">Tabela resumo: Impostos do MEI</h2>
+        
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Obrigação</th>
+                        <th>Prazo</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pagamento do DAS</td>
+                        <td>Todo dia 20</td>
+                        <td>R$ 70,60 a R$ 75,60</td>
+                    </tr>
+                    <tr>
+                        <td>Declaração Anual (DASN)</td>
+                        <td>31 de maio</td>
+                        <td>Grátis (multa por atraso: R$ 50)</td>
+                    </tr>
+                    <tr>
+                        <td>Emissão de Nota Fiscal</td>
+                        <td>Sempre que vender para PJ</td>
+                        <td>Variável (depende do município)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/simulador-mei" class="btn btn-primary">
+                <i class="bi bi-calculator me-2"></i>Simular seu DAS agora
+            </a>
+            <a href="/artigos/obrigacoes-mei" class="btn btn-outline-primary ms-2">
+                <i class="bi bi-list-check me-2"></i>Ver todas obrigações
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

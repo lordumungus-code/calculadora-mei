@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Como abrir MEI | Guia passo a passo para 2026{% endblock %}
+{% block icon %}file-text{% endblock %}
+{% block page_title %}Como Abrir MEI: Guia Completo{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="alert alert-info mb-4">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            Abrir um MEI é <strong>gratuito</strong> e leva apenas alguns minutos!
+        </div>
+        
+        <h2>O que é MEI?</h2>
+        <p>O Microempreendedor Individual (MEI) é uma categoria empresarial criada para formalizar pequenos negócios. Ao se registrar como MEI, você obtém um CNPJ, pode emitir notas fiscais e tem acesso a benefícios previdenciários como aposentadoria e auxílio-doença.</p>
+        
+        <h2>Quem pode ser MEI?</h2>
+        <p>Para se tornar MEI, você precisa:</p>
+        <ul>
+            <li>Faturar até <strong>R$ 81.000,00 por ano</strong></li>
+            <li>Não ter participação em outra empresa como sócio</li>
+            <li>Exercer uma das atividades permitidas (consulte a lista oficial)</li>
+            <li>Ter no máximo um empregado</li>
+        </ul>
+        
+        <h2>Passo a passo para abrir o MEI</h2>
+        
+        <div class="card bg-light border-0 mb-3">
+            <div class="card-body">
+                <h5 class="fw-bold" style="color: #667eea;">1. Acesse o Portal do Empreendedor</h5>
+                <p>Acesse <a href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor" target="_blank">www.gov.br/empresas-e-negocios</a> e clique em "Quero ser MEI".</p>
+            </div>
+        </div>
+        
+        <div class="card bg-light border-0 mb-3">
+            <div class="card-body">
+                <h5 class="fw-bold" style="color: #667eea;">2. Preencha seus dados</h5>
+                <p>Informe seu CPF, nome completo, data de nascimento e endereço. Esses dados serão usados para criar sua inscrição.</p>
+            </div>
+        </div>
+        
+        <div class="card bg-light border-0 mb-3">
+            <div class="card-body">
+                <h5 class="fw-bold" style="color: #667eea;">3. Escolha a atividade</h5>
+                <p>Selecione a CNAE (Classificação Nacional de Atividades Econômicas) que corresponde ao seu negócio. Você pode escolher até uma principal e até 15 secundárias.</p>
+            </div>
+        </div>
+        
+        <div class="card bg-light border-0 mb-3">
+            <div class="card-body">
+                <h5 class="fw-bold" style="color: #667eea;">4. Confirme e finalize</h5>
+                <p>Revise todas as informações, confirme e pronto! Seu CNPJ será gerado na hora.</p>
+            </div>
+        </div>
+        
+        <div class="alert alert-warning mt-4">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Atenção:</strong> Após abrir o MEI, você precisa pagar o DAS todo mês e fazer a Declaração Anual de Faturamento até 31 de maio.
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/simulador-mei" class="btn btn-primary">
+                <i class="bi bi-calculator me-2"></i>Simular seu DAS agora
+            </a>
+            <a href="/artigos/obrigacoes-mei" class="btn btn-outline-primary ms-2">
+                <i class="bi bi-list-check me-2"></i>Ver obrigações do MEI
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
