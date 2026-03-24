@@ -137,5 +137,10 @@ def artigo_impostos():
 def artigo_mei_me():
     return render_template('artigos/mei_ou_me.html')
 
+@app.route('/ads.txt')
+def ads_txt():
+    # Substitua pelo código exato que o Google forneceu
+    return "google.com, pub-2580999860510639, DIRECT, f08c47fec0942fa0"    
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
