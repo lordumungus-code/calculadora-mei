@@ -1,52 +1,110 @@
 {% extends "artigos/_artigo_base.html" %}
 
 {% block artigo_conteudo %}
-<p>O MEI paga poucos impostos em comparação a outras categorias empresariais, mas é importante entender exatamente o que está sendo pago. Neste guia, você vai entender cada tributo que compõe o DAS e como ele funciona.</p>
+<p>Todo Microempreendedor Individual paga impostos, mas a boa notícia é que o MEI tem a carga tributária mais simples e barata do sistema brasileiro. Neste guia, você vai entender exatamente quais impostos o MEI paga em 2026, quanto custa cada um e como funciona o famoso DAS.</p>
 
 <h2>Quais impostos o MEI paga</h2>
-<p>O MEI paga tudo em uma única guia mensal, o DAS. Ele é composto por:</p>
+<p>O MEI paga tudo em uma única guia mensal chamada DAS (Documento de Arrecadação do Simples Nacional). Ela é composta por três tributos:</p>
 <ul>
-    <li><strong>INSS</strong> — 5% do salário mínimo</li>
-    <li><strong>ICMS</strong> — R$ 1,00 (se for comércio ou indústria)</li>
-    <li><strong>ISS</strong> — R$ 5,00 (se for serviço)</li>
+    <li><strong>INSS</strong> — 5% do salário mínimo, garante benefícios previdenciários</li>
+    <li><strong>ICMS</strong> — R$ 1,00 por mês, para quem trabalha com comércio ou indústria</li>
+    <li><strong>ISS</strong> — R$ 5,00 por mês, para quem presta serviços</li>
 </ul>
+<p>O valor é fixo e não varia conforme o faturamento — desde que você esteja dentro do <a href="/artigos/teto-faturamento">limite anual de R$ 81.000</a>.</p>
 
-<h2>Valores em 2026</h2>
+<h2>Valores do DAS em 2026</h2>
+<p>Os valores exatos dependem do salário mínimo vigente e do tipo de atividade. Veja a tabela:</p>
+
 <table>
-    <thead><tr><th>Atividade</th><th>Composição</th><th>Valor</th></tr></thead>
+    <thead>
+        <tr>
+            <th>Tipo de atividade</th>
+            <th>Composição</th>
+            <th>Valor mensal</th>
+        </tr>
+    </thead>
     <tbody>
-        <tr><td>Comércio / Indústria</td><td>INSS + ICMS</td><td>R$ 76,60</td></tr>
-        <tr><td>Serviços</td><td>INSS + ISS</td><td>R$ 80,60</td></tr>
-        <tr><td>Comércio + Serviços</td><td>INSS + ICMS + ISS</td><td>R$ 81,60</td></tr>
+        <tr>
+            <td>Comércio e Indústria</td>
+            <td>INSS + ICMS</td>
+            <td>R$ 76,60</td>
+        </tr>
+        <tr>
+            <td>Serviços</td>
+            <td>INSS + ISS</td>
+            <td>R$ 80,60</td>
+        </tr>
+        <tr>
+            <td>Comércio + Serviços</td>
+            <td>INSS + ICMS + ISS</td>
+            <td>R$ 81,60</td>
+        </tr>
     </tbody>
 </table>
-<p>Use a <a href="/simulador-mei">calculadora MEI</a> para conferir o valor exato da sua atividade.</p>
+
+<p>Para saber o valor exato da sua atividade, use nossa <a href="/simulador-mei">calculadora de DAS do MEI</a>.</p>
 
 <h2>O que é o INSS do MEI</h2>
-<p>Os 5% do salário mínimo pagos via DAS garantem acesso a vários benefícios previdenciários: aposentadoria por idade, auxílio-doença, salário-maternidade, entre outros. Veja a lista completa em <a href="/artigos/mei-inss-beneficios-aposentadoria">benefícios do INSS para MEI</a>.</p>
+<p>O INSS é a parte mais importante do DAS. Ele representa 5% do salário mínimo e é o que garante ao MEI o acesso aos benefícios previdenciários:</p>
+<ul>
+    <li>Aposentadoria por idade</li>
+    <li>Aposentadoria por invalidez</li>
+    <li>Auxílio-doença</li>
+    <li>Salário-maternidade</li>
+    <li>Pensão por morte (para dependentes)</li>
+    <li>Auxílio-reclusão (para dependentes)</li>
+</ul>
+<p>Veja detalhes em <a href="/artigos/mei-inss-beneficios-aposentadoria">MEI tem direito ao INSS?</a></p>
 
 <h2>O que é o ICMS do MEI</h2>
-<p>É o imposto estadual sobre circulação de mercadorias. Para o MEI, é fixado em R$ 1,00 por mês, independente do faturamento.</p>
+<p>O ICMS é o Imposto sobre Circulação de Mercadorias e Serviços, de competência estadual. Para o MEI, é fixado em R$ 1,00 por mês, independente de quanto você vendeu.</p>
+<p>Só é cobrado se a sua atividade for de <strong>comércio ou indústria</strong>. Se você é prestador de serviços puro, não paga ICMS.</p>
 
 <h2>O que é o ISS do MEI</h2>
-<p>É o imposto municipal sobre serviços. Para o MEI, é fixado em R$ 5,00 por mês.</p>
+<p>O ISS é o Imposto Sobre Serviços, de competência municipal. Para o MEI, é fixado em R$ 5,00 por mês.</p>
+<p>Só é cobrado se a sua atividade envolver <strong>prestação de serviços</strong>. Se você só vende produtos, não paga ISS.</p>
 
-<h2>O MEI é isento de quais impostos?</h2>
+<h2>Do que o MEI é isento</h2>
+<p>Comparado a outras categorias empresariais, o MEI tem uma lista enorme de isenções:</p>
 <ul>
     <li>Imposto de Renda Pessoa Jurídica (IRPJ)</li>
     <li>Contribuição Social sobre o Lucro Líquido (CSLL)</li>
-    <li>PIS, COFINS e IPI</li>
+    <li>PIS</li>
+    <li>COFINS</li>
+    <li>IPI</li>
 </ul>
-<p>Isso torna o MEI uma das categorias mais vantajosas do ponto de vista tributário.</p>
+<p>Por isso, o MEI é considerado uma das formas mais vantajosas de formalização no Brasil.</p>
 
-<h2>Preciso declarar Imposto de Renda?</h2>
-<p>Se você recebeu rendimentos tributáveis acima do limite da Receita Federal, precisa declarar como pessoa física. Os rendimentos do MEI são informados à parte, na ficha de "Rendimentos Isentos e Não Tributáveis".</p>
+<h2>MEI precisa declarar Imposto de Renda?</h2>
+<p>Depende. Como pessoa física, você precisa declarar o IRPF se:</p>
+<ul>
+    <li>Recebeu rendimentos tributáveis acima do limite anual da Receita</li>
+    <li>Teve rendimentos isentos acima do limite</li>
+    <li>Possui bens acima do valor mínimo</li>
+</ul>
+<p>Os rendimentos do MEI são declarados como "Rendimentos Isentos e Não Tributáveis", na ficha específica do IRPF.</p>
+
+<h2>O que acontece se eu não pagar o DAS</h2>
+<p>Se você deixar de pagar o DAS por vários meses, as consequências são sérias: multa, juros, perda de benefícios do INSS, inscrição em dívida ativa e até o cancelamento do CNPJ. Veja mais em <a href="/artigos/mei-nao-pagou-das-o-que-acontece">MEI não pagou o DAS</a>.</p>
 
 <h2>Perguntas frequentes</h2>
+
 <h3>O DAS muda todo ano?</h3>
-<p>Sim, porque o INSS é calculado sobre o salário mínimo, que é reajustado anualmente.</p>
+<p>Sim, porque o INSS é calculado sobre o salário mínimo, que é reajustado anualmente pelo governo.</p>
+
 <h3>Posso pagar menos de DAS se faturei pouco?</h3>
-<p>Não. O DAS é fixo, independente do faturamento.</p>
+<p>Não. O DAS é fixo, independente do seu faturamento. Mesmo em meses sem vendas, o valor é o mesmo.</p>
+
 <h3>Preciso pagar DAS mesmo em mês sem vendas?</h3>
-<p>Sim. Veja mais em <a href="/artigos/como-pagar-das-mei">como pagar o DAS</a>.</p>
+<p>Sim, a obrigação é mensal. Veja <a href="/artigos/como-pagar-das-mei">como pagar o DAS do MEI</a>.</p>
+
+<h3>Existe algum caso de isenção do DAS?</h3>
+<p>Não há isenção prevista em lei para o MEI. O pagamento é sempre obrigatório.</p>
+
+<h3>O MEI paga algum imposto sobre o lucro?</h3>
+<p>Não. O MEI é isento de IRPJ, CSLL, PIS, COFINS e IPI. Paga apenas o DAS fixo.</p>
+
+<h2>Resumo</h2>
+<p>O MEI paga apenas um imposto mensal, o DAS, que reúne INSS, ICMS e ISS em uma única guia. O valor varia entre R$ 76,60 e R$ 81,60 em 2026, dependendo da atividade. Em troca, o empreendedor tem acesso a benefícios do INSS, CNPJ, emissão de nota fiscal e isenção de vários tributos federais.</p>
+<p>Use nossa <a href="/simulador-mei">calculadora MEI</a> para saber exatamente quanto você paga.</p>
 {% endblock %}
