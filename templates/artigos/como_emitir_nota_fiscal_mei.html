@@ -1,35 +1,100 @@
 {% extends "artigos/_artigo_base.html" %}
 
 {% block artigo_conteudo %}
-<p>Introdução sobre emissão de nota fiscal pelo MEI.</p>
+<p>Emitir nota fiscal é uma das obrigações mais importantes — e mais mal compreendidas — do MEI. Muitos microempreendedores não sabem quando a nota é obrigatória, como emiti-la ou o que acontece se não emitirem. Neste guia, você vai aprender tudo.</p>
 
 <h2>MEI é obrigado a emitir nota fiscal?</h2>
-<p>Para PJ sempre; para PF somente se solicitado.</p>
+<p>Depende do tipo de cliente:</p>
+<ul>
+    <li><strong>Para pessoa jurídica (CNPJ):</strong> sempre obrigatório</li>
+    <li><strong>Para pessoa física (CPF):</strong> apenas quando o cliente solicitar</li>
+</ul>
+<p>Ou seja, se você vende para outra empresa, precisa emitir nota em 100% das vendas. Se vende para consumidor final (pessoa física), a nota é opcional — mas recomendável.</p>
 
-<h2>Tipos de nota fiscal</h2>
-<h3>NFS-e (serviços)</h3>
-<h3>NF-e (produtos)</h3>
-<h3>NFC-e (consumidor final)</h3>
+<h2>Tipos de nota fiscal que o MEI pode emitir</h2>
 
-<h2>Como emitir NFS-e</h2>
-<p>Passo a passo no portal da prefeitura.</p>
+<h3>NFS-e — Nota Fiscal de Serviços Eletrônica</h3>
+<p>Para prestadores de serviços (consultoria, design, TI, beleza, etc). É emitida no portal da prefeitura do seu município. As regras variam de cidade para cidade.</p>
 
-<h2>Como emitir NF-e</h2>
-<p>Portal do Emissor Nacional.</p>
+<h3>NF-e — Nota Fiscal Eletrônica</h3>
+<p>Para venda de produtos (comércio e indústria). Emitida no Portal do Emissor Nacional ou no sistema da sua UF. Requer certificado digital em alguns casos.</p>
 
-<h2>O que acontece se não emitir</h2>
-<p>Multas e problemas com o cliente PJ.</p>
+<h3>NFC-e — Nota Fiscal de Consumidor Eletrônica</h3>
+<p>Para vendas diretas ao consumidor final (lojas físicas, pequeno comércio). Substitui o cupom fiscal.</p>
+
+<h2>Como emitir NFS-e (serviços)</h2>
+<ol>
+    <li>Acesse o portal da prefeitura do seu município</li>
+    <li>Faça login com CNPJ e senha</li>
+    <li>Selecione "Emitir NFS-e"</li>
+    <li>Preencha os dados do cliente (nome, CPF/CNPJ, endereço)</li>
+    <li>Descreva o serviço prestado e o valor</li>
+    <li>Emita e envie ao cliente</li>
+</ol>
+<p>Algumas prefeituras têm aplicativos próprios que facilitam o processo pelo celular.</p>
+
+<h2>Como emitir NF-e (produtos)</h2>
+<ol>
+    <li>Acesse o <a href="https://www.nfe.fazenda.gov.br/" target="_blank" rel="noopener">Portal Nacional da NF-e</a></li>
+    <li>Faça login com certificado digital (recomendado) ou código de acesso</li>
+    <li>Clique em "Emitir NF-e"</li>
+    <li>Preencha os dados do destinatário e do produto</li>
+    <li>Confirme e transmita</li>
+    <li>Envie o DANFE ao cliente</li>
+</ol>
+
+<h2>Preciso de certificado digital?</h2>
+<p>Depende:</p>
+<ul>
+    <li><strong>NFS-e:</strong> normalmente não — a maioria das prefeituras usa login e senha</li>
+    <li><strong>NF-e:</strong> sim, na maioria dos estados — é obrigatório para emitir nota de produto</li>
+    <li><strong>NFC-e:</strong> também exige certificado na maioria dos casos</li>
+</ul>
+<p>Um certificado digital A1 custa cerca de R$ 150 a R$ 250 por ano.</p>
+
+<h2>O que acontece se não emitir nota</h2>
+<ul>
+    <li>Autuação fiscal e multa sobre o valor da operação</li>
+    <li>O cliente PJ pode se recusar a pagar sem nota</li>
+    <li>Você tem dificuldade de comprovar seu faturamento</li>
+    <li>Risco de desenquadramento por sonegação</li>
+</ul>
 
 <h2>MEI pode emitir nota para pessoa física?</h2>
-<p>Sim, quando solicitado.</p>
+<p>Sim. E é recomendável fazer isso, mesmo quando não é obrigatório, porque:</p>
+<ul>
+    <li>Você tem registro formal da venda</li>
+    <li>Facilita o controle de faturamento</li>
+    <li>Serve como comprovante para o cliente</li>
+</ul>
 
 <h2>MEI pode emitir nota para o exterior?</h2>
-<p>Texto explicativo.</p>
+<p>Sim, mas o processo é diferente e envolve declarações específicas. Recomenda-se consultar um contador.</p>
+
+<h2>Notas canceladas contam como faturamento?</h2>
+<p>Não. Notas canceladas corretamente (dentro do prazo legal, com justificativa aceita pela SEFAZ) não contam no seu faturamento. Mas é preciso formalizar o cancelamento — não basta simplesmente "não usar" a nota.</p>
+
+<h2>Controle de notas e o limite do MEI</h2>
+<p>Toda nota emitida conta para o <a href="/artigos/teto-faturamento">limite de R$ 81.000</a>. Por isso é essencial manter um controle rigoroso. Use nossa <a href="/simulador-mei">calculadora MEI</a> para acompanhar o quanto você já faturou no ano.</p>
 
 <h2>Perguntas frequentes</h2>
-<h3>Preciso de certificado digital?</h3>
-<h3>Posso emitir nota sem CNPJ?</h3>
-<h3>Nota cancelada conta como faturamento?</h3>
 
-<p>Toda nota emitida conta para o <a href="/artigos/teto-faturamento">limite de R$ 81.000</a>. Acompanhe com a <a href="/simulador-mei">calculadora MEI</a>.</p>
+<h3>Posso emitir nota sem CNPJ?</h3>
+<p>Não. A nota fiscal só existe com CNPJ. Se você ainda é autônomo, precisa se formalizar como MEI primeiro — veja <a href="/artigos/como-abrir-mei">como abrir o MEI</a>.</p>
+
+<h3>Qual o prazo para emitir a nota?</h3>
+<p>Varia por município e estado. Na maioria dos casos, a NFS-e deve ser emitida no mesmo mês da prestação do serviço.</p>
+
+<h3>Preciso guardar as notas emitidas?</h3>
+<p>Sim, por pelo menos 5 anos. Isso é exigido pela Receita Federal em caso de fiscalização.</p>
+
+<h3>O que é DANFE?</h3>
+<p>É o Documento Auxiliar da Nota Fiscal Eletrônica — a representação impressa (ou em PDF) da NF-e, que acompanha a mercadoria.</p>
+
+<h3>Posso emitir nota para outra cidade?</h3>
+<p>Sim. O ISS é devido ao município onde o serviço é prestado, e a nota é emitida pelo portal desse município.</p>
+
+<h2>Resumo</h2>
+<p>Emitir nota fiscal é uma obrigação sempre que você vende para pessoa jurídica. Para pessoa física, é opcional, mas recomendável. O processo é 100% online na maioria dos casos e gratuito — o único custo eventual é o certificado digital.</p>
+<p>Mantenha o controle do seu faturamento com a <a href="/simulador-mei">calculadora MEI</a> para não ultrapassar o limite.</p>
 {% endblock %}
