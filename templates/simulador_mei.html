@@ -14,12 +14,13 @@
         <input type="number" step="0.01" min="0" name="faturamento_mensal" id="faturamento_mensal" required
                value="{{ request.form.get('faturamento_mensal', '') }}">
 
-        <label for="anexo">Tipo de atividade</label>
-        <select name="anexo" id="anexo" required>
-            <option value="I" {% if request.form.get('anexo') == 'I' %}selected{% endif %}>Comércio / Indústria</option>
-            <option value="II" {% if request.form.get('anexo') == 'II' %}selected{% endif %}>Serviços</option>
-            <option value="III" {% if request.form.get('anexo') == 'III' %}selected{% endif %}>Comércio + Serviços</option>
-        </select>
+       <label for="anexo">Tipo de atividade</label>
+<select name="anexo" id="anexo" required>
+    <option value="I" {% if request.form.get('anexo') == 'I' %}selected{% endif %}>Comércio / Indústria (R$ 82,05)</option>
+    <option value="II" {% if request.form.get('anexo') == 'II' %}selected{% endif %}>Serviços (R$ 86,05)</option>
+    <option value="III" {% if request.form.get('anexo') == 'III' %}selected{% endif %}>Comércio + Serviços (R$ 87,05)</option>
+    <option value="CAMINHONEIRO" {% if request.form.get('anexo') == 'CAMINHONEIRO' %}selected{% endif %}>MEI Caminhoneiro (R$ 195,52)</option>
+</select>
 
         <button type="submit">Calcular DAS</button>
     </form>
@@ -38,7 +39,11 @@
         <p><strong>Atividade:</strong> {{ resultado.nome_anexo }}</p>
         <p><strong>Composição:</strong></p>
         <ul>
-            <li>INSS (5% do salário mínimo): R$ {{ "%.2f"|format(resultado.inss) }}</li>
+            {% if resultado.inss == 194.52 %}
+<li>INSS (12% do salário mínimo — MEI Caminhoneiro): R$ {{ "%.2f"|format(resultado.inss) }}</li>
+{% else %}
+<li>INSS (5% do salário mínimo): R$ {{ "%.2f"|format(resultado.inss) }}</li>
+{% endif %}
             {% if resultado.icms > 0 %}<li>ICMS: R$ {{ "%.2f"|format(resultado.icms) }}</li>{% endif %}
             {% if resultado.iss > 0 %}<li>ISS: R$ {{ "%.2f"|format(resultado.iss) }}</li>{% endif %}
         </ul>

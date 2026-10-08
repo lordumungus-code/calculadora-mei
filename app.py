@@ -138,24 +138,41 @@ def simulador_mei():
             faturamento_mensal = float(request.form['faturamento_mensal'])
             anexo = request.form['anexo']
 
-            # ⚠️ ATUALIZE conforme o salário mínimo oficial de 2026
+            # ============================================================
+            # VALORES OFICIAIS DO DAS 2026
+            # Base: salário mínimo R$ 1.621,00
+            # ============================================================
             salario_minimo = 1621.00
-            inss = salario_minimo * 0.05   # 5% do salário mínimo
-            icms = 1.00
-            iss = 5.00
 
-            if anexo == 'I':
-                das_fixo = inss + icms
+            # MEI geral: 5% do salário mínimo
+            inss_geral = round(salario_minimo * 0.05, 2)  # R$ 81,05
+
+            # MEI caminhoneiro: 12% do salário mínimo
+            inss_caminhoneiro = round(salario_minimo * 0.12, 2)  # R$ 194,52
+
+            icms = 1.00  # comércio/indústria
+            iss = 5.00   # serviços
+
+            if anexo == 'I':  # Comércio / Indústria
+                das_fixo = inss_geral + icms                # R$ 82,05
                 nome_anexo = "Comércio e Indústria"
-                descricao = "Anexo I: comércio, indústria, transporte de carga"
-            elif anexo == 'II':
-                das_fixo = inss + iss
+                descricao = "INSS + ICMS"
+            elif anexo == 'II':  # Serviços
+                das_fixo = inss_geral + iss                 # R$ 86,05
                 nome_anexo = "Serviços"
-                descricao = "Anexo II: serviços em geral"
-            else:  # III
-                das_fixo = inss + icms + iss
+                descricao = "INSS + ISS"
+            elif anexo == 'III':  # Comércio + Serviços
+                das_fixo = inss_geral + icms + iss          # R$ 87,05
                 nome_anexo = "Comércio e Serviços"
-                descricao = "Anexo III: atividades mistas"
+                descricao = "INSS + ICMS + ISS"
+            elif anexo == 'CAMINHONEIRO':  # MEI Caminhoneiro
+                das_fixo = inss_caminhoneiro + icms         # R$ 195,52
+                nome_anexo = "MEI Caminhoneiro"
+                descricao = "INSS 12% + ICMS"
+            else:
+                das_fixo = inss_geral + icms
+                nome_anexo = "Comércio e Indústria"
+                descricao = "INSS + ICMS"
 
             faturamento_anual = faturamento_mensal * 12
             limite_anual = 81000.00
@@ -179,8 +196,8 @@ def simulador_mei():
                 'nome_anexo': nome_anexo,
                 'descricao_anexo': descricao,
                 'das_pagar': round(das_fixo, 2),
-                'inss': round(inss, 2),
-                'icms': icms if anexo in ('I', 'III') else 0,
+                'inss': inss_caminhoneiro if anexo == 'CAMINHONEIRO' else inss_geral,
+                'icms': icms if anexo in ('I', 'III', 'CAMINHONEIRO') else 0,
                 'iss': iss if anexo in ('II', 'III') else 0,
                 'alerta': alerta,
                 'classe_alerta': classe_alerta,
