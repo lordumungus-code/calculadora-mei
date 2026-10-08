@@ -1,72 +1,55 @@
-{% extends "base.html" %}
+{% extends "artigos/_artigo_base.html" %}
 
-{% block title %}Como abrir MEI | Guia passo a passo para 2026{% endblock %}
-{% block icon %}file-text{% endblock %}
-{% block page_title %}Como Abrir MEI: Guia Completo{% endblock %}
+{% block artigo_conteudo %}
+<p>Abrir um MEI é gratuito, 100% online e pode ser feito em poucos minutos. Neste guia, você vai aprender o passo a passo completo para formalizar seu negócio em 2026, quais documentos são necessários e o que esperar depois da abertura.</p>
 
-{% block content %}
-<div class="row">
-    <div class="col-lg-10 mx-auto">
-        <div class="alert alert-info mb-4">
-            <i class="bi bi-check-circle-fill me-2"></i>
-            Abrir um MEI é <strong>gratuito</strong> e leva apenas alguns minutos!
-        </div>
-        
-        <h2>O que é MEI?</h2>
-        <p>O Microempreendedor Individual (MEI) é uma categoria empresarial criada para formalizar pequenos negócios. Ao se registrar como MEI, você obtém um CNPJ, pode emitir notas fiscais e tem acesso a benefícios previdenciários como aposentadoria e auxílio-doença.</p>
-        
-        <h2>Quem pode ser MEI?</h2>
-        <p>Para se tornar MEI, você precisa:</p>
-        <ul>
-            <li>Faturar até <strong>R$ 81.000,00 por ano</strong></li>
-            <li>Não ter participação em outra empresa como sócio</li>
-            <li>Exercer uma das atividades permitidas (consulte a lista oficial)</li>
-            <li>Ter no máximo um empregado</li>
-        </ul>
-        
-        <h2>Passo a passo para abrir o MEI</h2>
-        
-        <div class="card bg-light border-0 mb-3">
-            <div class="card-body">
-                <h5 class="fw-bold" style="color: #667eea;">1. Acesse o Portal do Empreendedor</h5>
-                <p>Acesse <a href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor" target="_blank">www.gov.br/empresas-e-negocios</a> e clique em "Quero ser MEI".</p>
-            </div>
-        </div>
-        
-        <div class="card bg-light border-0 mb-3">
-            <div class="card-body">
-                <h5 class="fw-bold" style="color: #667eea;">2. Preencha seus dados</h5>
-                <p>Informe seu CPF, nome completo, data de nascimento e endereço. Esses dados serão usados para criar sua inscrição.</p>
-            </div>
-        </div>
-        
-        <div class="card bg-light border-0 mb-3">
-            <div class="card-body">
-                <h5 class="fw-bold" style="color: #667eea;">3. Escolha a atividade</h5>
-                <p>Selecione a CNAE (Classificação Nacional de Atividades Econômicas) que corresponde ao seu negócio. Você pode escolher até uma principal e até 15 secundárias.</p>
-            </div>
-        </div>
-        
-        <div class="card bg-light border-0 mb-3">
-            <div class="card-body">
-                <h5 class="fw-bold" style="color: #667eea;">4. Confirme e finalize</h5>
-                <p>Revise todas as informações, confirme e pronto! Seu CNPJ será gerado na hora.</p>
-            </div>
-        </div>
-        
-        <div class="alert alert-warning mt-4">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            <strong>Atenção:</strong> Após abrir o MEI, você precisa pagar o DAS todo mês e fazer a Declaração Anual de Faturamento até 31 de maio.
-        </div>
-        
-        <div class="text-center mt-4">
-            <a href="/simulador-mei" class="btn btn-primary">
-                <i class="bi bi-calculator me-2"></i>Simular seu DAS agora
-            </a>
-            <a href="/artigos/obrigacoes-mei" class="btn btn-outline-primary ms-2">
-                <i class="bi bi-list-check me-2"></i>Ver obrigações do MEI
-            </a>
-        </div>
-    </div>
-</div>
+<h2>O que é o MEI</h2>
+<p>O Microempreendedor Individual (MEI) é uma categoria empresarial criada para formalizar pequenos negócios. Com o MEI, você tem CNPJ, pode emitir nota fiscal e tem acesso a benefícios do INSS, como aposentadoria e auxílio-doença.</p>
+
+<h2>Quem pode ser MEI</h2>
+<ul>
+    <li>Faturar até R$ 81.000 por ano</li>
+    <li>Não ser sócio de outra empresa</li>
+    <li>Exercer uma das atividades permitidas pela Receita Federal</li>
+    <li>Ter no máximo um funcionário contratado</li>
+</ul>
+<p>Se você quer entender melhor o limite, veja nosso artigo sobre o <a href="/artigos/teto-faturamento">teto de faturamento do MEI</a>.</p>
+
+<h2>Documentos necessários</h2>
+<ul>
+    <li>CPF e RG (ou CNH)</li>
+    <li>Título de eleitor</li>
+    <li>Comprovante de residência</li>
+    <li>Número do recibo do IR (se declarou no último ano)</li>
+    <li>Dados da atividade que vai exercer</li>
+</ul>
+
+<h2>Passo a passo para abrir o MEI</h2>
+<ol>
+    <li>Acesse o <a href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor" target="_blank" rel="noopener">Portal do Empreendedor</a></li>
+    <li>Faça login com sua conta gov.br (nível prata ou ouro)</li>
+    <li>Clique em "Formalize-se" e escolha a ocupação principal</li>
+    <li>Preencha dados pessoais, endereço e dados da atividade</li>
+    <li>Confirme as informações e finalize</li>
+</ol>
+<p>O CNPJ é gerado imediatamente. Você já pode emitir notas fiscais e abrir conta bancária PJ no mesmo dia.</p>
+
+<h2>Quanto custa abrir o MEI</h2>
+<p>A abertura é <strong>gratuita</strong>. O único custo é o DAS mensal, que em 2026 fica entre R$ 76,60 e R$ 81,60 dependendo da atividade. Use nossa <a href="/simulador-mei">calculadora de DAS</a> para simular o valor exato.</p>
+
+<h2>O que fazer depois de abrir</h2>
+<ul>
+    <li>Pagar o DAS todo mês até o dia 20 (veja <a href="/artigos/como-pagar-das-mei">como pagar o DAS</a>)</li>
+    <li>Emitir nota fiscal quando solicitado</li>
+    <li>Entregar a Declaração Anual (DASN-SIMEI) até 31 de maio</li>
+    <li>Manter o controle de faturamento</li>
+</ul>
+
+<h2>Perguntas frequentes</h2>
+<h3>Posso ter MEI e trabalhar de carteira assinada?</h3>
+<p>Sim, é permitido. Veja mais em <a href="/artigos/mei-pode-ser-mei-e-clt">MEI e CLT ao mesmo tempo</a>.</p>
+<h3>Preciso de contador para abrir o MEI?</h3>
+<p>Não é obrigatório. Mas se você tem dúvidas específicas sobre impostos, um contador pode ajudar.</p>
+<h3>Posso mudar de atividade depois?</h3>
+<p>Sim, você pode alterar a atividade a qualquer momento pelo Portal do Empreendedor.</p>
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Artigos sobre MEI | Calculadora MEI{% endblock %}
+
+{% block meta_description %}Guias, tutoriais e informações atualizadas sobre Microempreendedor Individual (MEI).{% endblock %}
+
+{% block content %}
+<section class="artigos">
+    <h1>Artigos sobre MEI</h1>
+    <p>Tudo o que você precisa saber sobre Microempreendedor Individual, DAS, limites e obrigações.</p>
+
+    <div class="lista-artigos">
+        {% for slug, artigo in artigos %}
+        <article class="card-artigo">
+            <h2><a href="/artigos/{{ slug }}">{{ artigo.titulo }}</a></h2>
+            <p>{{ artigo.descricao }}</p>
+            <small>{{ artigo.data }} · {{ artigo.categoria }}</small>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

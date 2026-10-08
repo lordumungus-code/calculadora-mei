@@ -1,142 +1,50 @@
-{% extends "base.html" %}
+{% extends "artigos/_artigo_base.html" %}
 
-{% block title %}Limite de Faturamento do MEI | Teto de R$ 81.000 e o que fazer{% endblock %}
-{% block icon %}graph-up{% endblock %}
-{% block page_title %}Limite de Faturamento do MEI: Teto de R$ 81.000{% endblock %}
+{% block artigo_conteudo %}
+<p>O limite de faturamento é uma das regras mais importantes do MEI. Ultrapassar esse valor sem os cuidados corretos pode gerar desenquadramento retroativo, multas e mudança obrigatória para ME. Entenda como funciona em 2026.</p>
 
-{% block content %}
-<div class="row">
-    <div class="col-lg-10 mx-auto">
-        <div class="alert alert-warning mb-4">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            <strong>Atenção:</strong> Ultrapassar o limite de faturamento do MEI pode gerar consequências sérias!
-        </div>
-        
-        <h2>Qual é o limite de faturamento do MEI?</h2>
-        <p>O Microempreendedor Individual (MEI) pode faturar até <strong>R$ 81.000,00 por ano</strong>. Esse valor é o teto máximo para permanecer no regime simplificado. O cálculo considera o faturamento bruto total de janeiro a dezembro do ano-calendário.</p>
-        
-        <div class="card bg-light border-0 mb-4">
-            <div class="card-body">
-                <h5 class="fw-bold text-center" style="color: #667eea;">📊 Limite MEI 2026</h5>
-                <div class="text-center">
-                    <span class="display-4 fw-bold" style="color: #667eea;">R$ 81.000</span>
-                    <p class="text-muted">por ano</p>
-                    <div class="progress" style="height: 30px;">
-                        <div class="progress-bar bg-success" style="width: 70%;">Até R$ 81.000</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <h2>Como calcular seu faturamento anual?</h2>
-        <p>O faturamento anual é a soma de todas as vendas, serviços prestados e receitas do seu negócio no período de 1º de janeiro a 31 de dezembro. Inclui:</p>
-        <ul>
-            <li>Vendas de produtos (comércio)</li>
-            <li>Prestação de serviços</li>
-            <li>Receitas de aluguéis (se for atividade principal)</li>
-            <li>Comissões e intermediações</li>
-        </ul>
-        
-        <div class="alert alert-info mt-3">
-            <i class="bi bi-calculator-fill me-2"></i>
-            <strong>Calcule agora:</strong> Use nosso <a href="/simulador-mei" class="alert-link">Simulador MEI</a> para ver se você está perto do limite!
-        </div>
-        
-        <h2 class="mt-4">O que acontece se eu ultrapassar o limite?</h2>
-        
-        <div class="row mt-3">
-            <div class="col-md-6">
-                <div class="card border-0 bg-light mb-3">
-                    <div class="card-body">
-                        <h5 class="text-warning">⚠️ Até 20% acima do limite</h5>
-                        <p>Se você faturar entre <strong>R$ 81.001 e R$ 97.200</strong> (até 20% acima), pode permanecer no MEI, mas pagará imposto sobre o excedente no ano seguinte.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card border-0 bg-light mb-3">
-                    <div class="card-body">
-                        <h5 class="text-danger">❌ Mais de 20% acima do limite</h5>
-                        <p>Se ultrapassar R$ 97.200, você será <strong>excluído do MEI retroativamente</strong> e precisará migrar para ME (Microempresa), pagando impostos de todo o período.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <h2 class="mt-4">Como planejar para não ultrapassar o limite?</h2>
-        
-        <div class="card border-0 mb-3">
-            <div class="card-body bg-white shadow-sm">
-                <h5 class="fw-bold" style="color: #667eea;">1. Controle mensal de faturamento</h5>
-                <p>Mantenha uma planilha atualizada com todas as suas vendas. No final de cada mês, some o total e veja a projeção anual.</p>
-            </div>
-        </div>
-        
-        <div class="card border-0 mb-3">
-            <div class="card-body bg-white shadow-sm">
-                <h5 class="fw-bold" style="color: #667eea;">2. Fique atento aos meses de alta</h5>
-                <p>Se você trabalha com sazonalidade (ex: vendas de fim de ano), calcule com antecedência para não ser pego de surpresa.</p>
-            </div>
-        </div>
-        
-        <div class="card border-0 mb-3">
-            <div class="card-body bg-white shadow-sm">
-                <h5 class="fw-bold" style="color: #667eea;">3. Separe uma reserva para impostos</h5>
-                <p>Se você está perto do limite, guarde parte do faturamento para pagar os impostos adicionais caso precise migrar para ME.</p>
-            </div>
-        </div>
-        
-        <div class="card border-0 mb-3">
-            <div class="card-body bg-white shadow-sm">
-                <h5 class="fw-bold" style="color: #667eea;">4. Consulte um contador periodicamente</h5>
-                <p>Se o seu negócio está crescendo, vale a pena investir em um contador para planejar a transição para ME no momento certo.</p>
-            </div>
-        </div>
-        
-        <h2 class="mt-4">Tabela comparativa: MEI x ME</h2>
-        
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-                        <th>Característica</th>
-                        <th>MEI</th>
-                        <th>ME (Microempresa)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Limite faturamento</td>
-                        <td>Até R$ 81.000/ano</td>
-                        <td>Até R$ 360.000/ano</td>
-                    </tr>
-                    <tr>
-                        <td>Imposto mensal</td>
-                        <td>Fixo (R$ 71,60 a R$ 77,60)</td>
-                        <td>Percentual sobre faturamento (4% a 18%)</td>
-                    </tr>
-                    <tr>
-                        <td>Número de empregados</td>
-                        <td>Máximo 1</td>
-                        <td>Sem limite</td>
-                    </tr>
-                    <tr>
-                        <td>Obrigações fiscais</td>
-                        <td>DAS mensal + Declaração Anual</td>
-                        <td>Escrituração contábil, várias declarações</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="text-center mt-4">
-            <a href="/artigos/mei-ou-me" class="btn btn-primary">
-                <i class="bi bi-arrow-left-right me-2"></i>MEI ou ME: qual escolher?
-            </a>
-            <a href="/simulador-mei" class="btn btn-outline-primary ms-2">
-                <i class="bi bi-calculator me-2"></i>Simular meu faturamento
-            </a>
-        </div>
-    </div>
-</div>
+<h2>Qual o limite do MEI em 2026</h2>
+<p>O limite anual é de <strong>R$ 81.000</strong>, o que corresponde a uma média de <strong>R$ 6.750 por mês</strong>. Esse valor considera o faturamento bruto, ou seja, tudo que entrou como receita antes de descontar despesas.</p>
+
+<h2>O que conta como faturamento</h2>
+<ul>
+    <li>Vendas de produtos</li>
+    <li>Serviços prestados</li>
+    <li>Notas fiscais emitidas (mesmo canceladas, se houve recebimento)</li>
+    <li>Valores recebidos por PIX, cartão ou dinheiro</li>
+</ul>
+
+<h2>O que não conta como faturamento</h2>
+<ul>
+    <li>Empréstimos bancários</li>
+    <li>Transferências entre contas próprias</li>
+    <li>Venda de bens pessoais (carro, casa)</li>
+</ul>
+
+<h2>E se eu ultrapassar o limite?</h2>
+<p>Existem duas situações:</p>
+
+<h3>Excesso de até 20%</h3>
+<p>Se você faturou entre R$ 81.000 e R$ 97.200 no ano, ainda pode continuar como MEI até dezembro. Deve pagar um DAS complementar sobre o excesso e migrar para ME no ano seguinte.</p>
+
+<h3>Excesso acima de 20%</h3>
+<p>Se passou de R$ 97.200, o desenquadramento é retroativo a janeiro do ano corrente. Você passa a ser ME desde o início do ano e deve recolher impostos como ME.</p>
+
+<p>Veja o passo a passo completo em <a href="/artigos/o-que-acontece-se-ultrapassar-limite-mei">o que acontece se o MEI ultrapassar o limite</a>.</p>
+
+<h2>Como se planejar para não ultrapassar</h2>
+<ul>
+    <li>Acompanhe o faturamento mensalmente</li>
+    <li>Use a <a href="/simulador-mei">calculadora MEI</a> para simular o ano</li>
+    <li>Considere migrar para ME se estiver próximo do limite</li>
+    <li>Consulte um contador em caso de dúvidas</li>
+</ul>
+
+<h2>Perguntas frequentes</h2>
+<h3>Posso ultrapassar um mês e voltar?</h3>
+<p>O limite é anual. Se em um mês você faturar acima da média, isso não é problema — desde que o total anual fique abaixo de R$ 81.000.</p>
+<h3>Meu MEI pode ser cancelado por ultrapassar?</h3>
+<p>Não é cancelado automaticamente, mas é desenquadrado e passa a ser ME.</p>
+<h3>E se eu faturar R$ 0 no ano?</h3>
+<p>Você continua MEI regular, desde que pague o DAS mensal e entregue a DASN-SIMEI.</p>
 {% endblock %}
