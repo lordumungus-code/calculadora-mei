@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = 'mei_simulator_secret_key_2026'
 
 # ============================================================
-# METADADOS DOS ARTIGOS (15 artigos)
+# METADADOS DOS ARTIGOS (20 artigos)
 # ============================================================
 ARTIGOS = {
     # ============ 5 ARTIGOS ORIGINAIS ============
@@ -45,7 +45,7 @@ ARTIGOS = {
         "template": "artigos/mei_ou_me.html"
     },
 
-    # ============ 10 NOVOS ARTIGOS ============
+    # ============ 10 ARTIGOS TEMÁTICOS ============
     "como-pagar-das-mei": {
         "titulo": "Como Pagar o DAS do MEI em 2026: Passo a Passo Completo",
         "descricao": "Aprenda a gerar e pagar o DAS do MEI em 2026 pelo app, site ou banco. Veja prazos, valores e o que fazer se atrasar.",
@@ -115,6 +115,43 @@ ARTIGOS = {
         "data": "2026-02-19",
         "categoria": "Impostos",
         "template": "artigos/mei_nao_pagou_das_o_que_acontece.html"
+    },
+
+    # ============ 5 ARTIGOS POR ATIVIDADE PROFISSIONAL ============
+    "mei-eletricista": {
+        "titulo": "MEI Eletricista em 2026: CNAE, DAS, CBO e Como Se Formalizar",
+        "descricao": "Guia completo para eletricistas que querem ser MEI em 2026: CNAE correto, valor do DAS, CBO e dicas de precificação.",
+        "data": "2026-03-01",
+        "categoria": "Atividades",
+        "template": "artigos/mei_eletricista.html"
+    },
+    "mei-manicure": {
+        "titulo": "MEI Manicure em 2026: CNAE, DAS, CBO e Como Se Formalizar",
+        "descricao": "Guia completo para manicures e pedicures que querem ser MEI em 2026: CNAE correto, valor do DAS, CBO e precificação.",
+        "data": "2026-03-03",
+        "categoria": "Atividades",
+        "template": "artigos/mei_manicure.html"
+    },
+    "mei-confeiteiro": {
+        "titulo": "MEI Confeiteiro em 2026: CNAE, DAS, CBO e Como Se Formalizar",
+        "descricao": "Guia completo para confeiteiros que querem ser MEI em 2026: CNAE correto, valor do DAS, CBO e dicas de precificação.",
+        "data": "2026-03-05",
+        "categoria": "Atividades",
+        "template": "artigos/mei_confeiteiro.html"
+    },
+    "mei-designer-grafico": {
+        "titulo": "Designer Gráfico Pode Ser MEI? Entenda a Regra em 2026",
+        "descricao": "Descubra por que Designer Gráfico não pode ser MEI em 2026, qual CNAE usar e como se formalizar como ME.",
+        "data": "2026-03-07",
+        "categoria": "Atividades",
+        "template": "artigos/mei_designer_grafico.html"
+    },
+    "mei-motorista-app": {
+        "titulo": "MEI Motorista de App em 2026: CNAE, DAS, CBO e Regras",
+        "descricao": "Guia completo para motoristas de aplicativo que querem ser MEI em 2026: CNAE correto, valor do DAS, CBO e precificação.",
+        "data": "2026-03-09",
+        "categoria": "Atividades",
+        "template": "artigos/mei_motorista_app.html"
     },
 }
 
