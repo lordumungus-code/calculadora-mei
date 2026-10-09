@@ -4,42 +4,39 @@ from flask import Flask, render_template, request, flash, redirect, url_for, Res
 app = Flask(__name__)
 app.secret_key = 'mei_simulator_secret_key_2026'
 
-# ============================================================
-# METADADOS DOS ARTIGOS (20 artigos)
-# ============================================================
 ARTIGOS = {
     # ============ 5 ARTIGOS ORIGINAIS ============
     "como-abrir-mei": {
-        "titulo": "Como Abrir um MEI em 2026: Guia Completo Passo a Passo",
-        "descricao": "Aprenda como abrir seu MEI gratuitamente em 2026, documentos necessários, custos e primeiros passos.",
+        "titulo": "Como Abrir MEI em 2026: Guia Grátis em 5 Passos (Atualizado)",
+        "descricao": "Aprenda a abrir MEI gratuitamente em 2026 em 5 passos. Documentos, custos e o que fazer depois. Guia atualizado pela Receita Federal.",
         "data": "2026-01-10",
         "categoria": "Primeiros Passos",
         "template": "artigos/como_abrir_mei.html"
     },
     "obrigacoes-mei": {
-        "titulo": "Obrigações do MEI: O Que Você Precisa Fazer Todo Mês",
-        "descricao": "Conheça todas as obrigações mensais e anuais do Microempreendedor Individual e evite multas.",
+        "titulo": "Obrigações do MEI em 2026: Lista Completa Para Não Pagar Multa",
+        "descricao": "Todas as obrigações mensais e anuais do MEI em 2026. DAS, nota fiscal, DASN-SIMEI e mais. Evite multas e mantenha o CNPJ regular.",
         "data": "2026-01-12",
         "categoria": "Obrigações",
         "template": "artigos/obrigacoes_mei.html"
     },
     "teto-faturamento": {
-        "titulo": "Teto de Faturamento do MEI em 2026: Limite e Regras",
-        "descricao": "Entenda o limite anual de R$ 81.000 do MEI, o que acontece se ultrapassar e como se planejar.",
+        "titulo": "Teto do MEI 2026: Limite de R$ 81.000 e o Que Fazer se Ultrapassar",
+        "descricao": "Entenda o limite de R$ 81.000 do MEI em 2026, o que acontece se ultrapassar e como regularizar. Excesso até 20% tem regra especial.",
         "data": "2026-01-14",
         "categoria": "Regras",
         "template": "artigos/teto_faturamento.html"
     },
     "guia-impostos-mei": {
-        "titulo": "Guia de Impostos do MEI: DAS, ICMS, ISS e INSS",
-        "descricao": "Saiba exatamente quais impostos o MEI paga, quanto custa o DAS em 2026 e como funciona o INSS.",
+        "titulo": "Guia MEI 2026: Todos os Impostos que Você Paga (DAS, ICMS, ISS, INSS)",
+        "descricao": "Guia completo dos impostos do MEI em 2026: DAS, INSS, ICMS e ISS. Veja os valores exatos por atividade e como calcular o seu.",
         "data": "2026-01-16",
         "categoria": "Impostos",
         "template": "artigos/guia_impostos_mei.html"
     },
     "mei-ou-me": {
-        "titulo": "MEI ou ME? Qual a Diferença e Quando Migrar",
-        "descricao": "Compare MEI e Microempresa, entenda limites, impostos e quando vale a pena mudar de categoria.",
+        "titulo": "MEI ou ME em 2026? Compare Limites, Impostos e Quando Migrar",
+        "descricao": "MEI ou ME? Compare limites, impostos, funcionários e obrigações. Descubra qual é melhor para o seu negócio em 2026.",
         "data": "2026-01-18",
         "categoria": "Comparativos",
         "template": "artigos/mei_ou_me.html"
@@ -47,71 +44,71 @@ ARTIGOS = {
 
     # ============ 10 ARTIGOS TEMÁTICOS ============
     "como-pagar-das-mei": {
-        "titulo": "Como Pagar o DAS do MEI em 2026: Passo a Passo Completo",
-        "descricao": "Aprenda a gerar e pagar o DAS do MEI em 2026 pelo app, site ou banco. Veja prazos, valores e o que fazer se atrasar.",
+        "titulo": "Como Pagar o DAS do MEI em 2026: Guia Passo a Passo (App, Site, Banco)",
+        "descricao": "Aprenda a gerar e pagar o DAS do MEI em 2026 pelo app, site ou banco. Valores, prazo (dia 20) e o que fazer se atrasar.",
         "data": "2026-02-01",
         "categoria": "Impostos",
         "template": "artigos/como_pagar_das_mei.html"
     },
     "declaracao-anual-mei-dasn-simei": {
-        "titulo": "Declaração Anual do MEI (DASN-SIMEI) 2026: Como Fazer",
-        "descricao": "Passo a passo completo para fazer a Declaração Anual do MEI (DASN-SIMEI) em 2026. Prazo, multas e o que declarar.",
+        "titulo": "Declaração Anual MEI (DASN-SIMEI) 2026: Como Fazer em 7 Passos",
+        "descricao": "Passo a passo da Declaração Anual do MEI (DASN-SIMEI) 2026. Prazo até 31 de maio, multa de R$ 50 se não entregar. Guia completo.",
         "data": "2026-02-03",
         "categoria": "Obrigações",
         "template": "artigos/declaracao_anual_mei_dasn_simei.html"
     },
     "mei-pode-ter-funcionario": {
-        "titulo": "MEI Pode Ter Funcionário em 2026? Regras e Custos",
-        "descricao": "Descubra se o MEI pode contratar funcionário em 2026, quantos, quanto custa e como fazer a contratação corretamente.",
+        "titulo": "MEI Pode Ter Funcionário em 2026? Regras, Custos e Como Contratar",
+        "descricao": "Sim, o MEI pode ter 1 funcionário. Veja regras CLT, custo real (~30% acima do salário) e como registrar no eSocial em 2026.",
         "data": "2026-02-05",
         "categoria": "Regras",
         "template": "artigos/mei_pode_ter_funcionario.html"
     },
     "como-emitir-nota-fiscal-mei": {
-        "titulo": "Como Emitir Nota Fiscal Sendo MEI em 2026 (Passo a Passo)",
-        "descricao": "Aprenda a emitir nota fiscal como MEI em 2026. Quando é obrigatório, como fazer e o que acontece se não emitir.",
+        "titulo": "Como Emitir Nota Fiscal MEI em 2026: Guia Simples (NFS-e, NF-e, NFC-e)",
+        "descricao": "Aprenda a emitir nota fiscal como MEI em 2026. Quando é obrigatório, tipos de nota (NFS-e, NF-e, NFC-e) e o que acontece se não emitir.",
         "data": "2026-02-07",
         "categoria": "Obrigações",
         "template": "artigos/como_emitir_nota_fiscal_mei.html"
     },
     "o-que-acontece-se-ultrapassar-limite-mei": {
-        "titulo": "O Que Acontece se o MEI Ultrapassar o Limite de R$ 81.000?",
-        "descricao": "Entenda o que acontece se o MEI ultrapassar o limite de faturamento em 2026, quanto pode passar e como regularizar.",
+        "titulo": "MEI Ultrapassou o Limite de R$ 81.000? Veja o Que Acontece em 2026",
+        "descricao": "Descubra o que acontece se o MEI ultrapassar o limite de R$ 81.000 em 2026. Excesso até 20%, desenquadramento e como regularizar.",
         "data": "2026-02-09",
         "categoria": "Regras",
         "template": "artigos/o_que_acontece_se_ultrapassar_limite_mei.html"
     },
     "mei-inss-beneficios-aposentadoria": {
-        "titulo": "MEI Tem Direito ao INSS? Aposentadoria e Benefícios em 2026",
-        "descricao": "Descubra quais benefícios do INSS o MEI tem direito em 2026: aposentadoria, auxílio-doença, salário-maternidade e mais.",
+        "titulo": "Aposentadoria MEI 2026: Como Funciona e Quais Benefícios Você Tem",
+        "descricao": "Descubra como funciona a aposentadoria do MEI em 2026. Idade mínima, carência, benefícios (auxílio-doença, salário-maternidade) e como complementar.",
         "data": "2026-02-11",
         "categoria": "Benefícios",
         "template": "artigos/mei_inss_beneficios_aposentadoria.html"
     },
     "como-fechar-mei": {
-        "titulo": "Como Fechar o MEI em 2026: Passo a Passo e Custos",
-        "descricao": "Aprenda a fechar seu MEI em 2026, o que precisa estar em dia, custos e como fazer no Portal do Empreendedor.",
+        "titulo": "Como Fechar o MEI em 2026: Passo a Passo Grátis em 5 Minutos",
+        "descricao": "Aprenda a fechar o MEI em 2026 gratuitamente em 5 minutos. O que precisa estar em dia, documentos e o que fazer depois da baixa.",
         "data": "2026-02-13",
         "categoria": "Primeiros Passos",
         "template": "artigos/como_fechar_mei.html"
     },
     "mei-pode-ser-mei-e-clt": {
-        "titulo": "Posso Ser MEI e Ter Carteira Assinada ao Mesmo Tempo?",
-        "descricao": "Descubra se é permitido ser MEI e trabalhar com carteira assinada em 2026, o que diz a lei e possíveis conflitos.",
+        "titulo": "Posso Ser MEI e CLT ao Mesmo Tempo em 2026? Entenda as Regras",
+        "descricao": "Sim, é permitido ser MEI e CLT em 2026. Veja regras, como declarar as duas rendas e em quais casos pode dar problema.",
         "data": "2026-02-15",
         "categoria": "Regras",
         "template": "artigos/mei_pode_ser_mei_e_clt.html"
     },
     "melhores-atividades-para-mei": {
-        "titulo": "30 Melhores Atividades para Ser MEI em 2026 (Lista Atualizada)",
-        "descricao": "Lista com as ocupações permitidas para MEI em 2026, quais dão mais dinheiro e como escolher a sua.",
+        "titulo": "30 Melhores Atividades Para Ser MEI em 2026 (Lista Atualizada e Lucrativa)",
+        "descricao": "Lista atualizada das 30 melhores atividades para MEI em 2026. Veja as mais lucrativas, com menor concorrência e como escolher a sua.",
         "data": "2026-02-17",
         "categoria": "Primeiros Passos",
         "template": "artigos/melhores_atividades_para_mei.html"
     },
     "mei-nao-pagou-das-o-que-acontece": {
-        "titulo": "MEI Não Pagou o DAS: O Que Acontece e Como Regularizar",
-        "descricao": "Não pagou o DAS do MEI? Veja as consequências, como calcular multas e juros e como regularizar sua situação.",
+        "titulo": "MEI Não Pagou o DAS? Veja as Consequências e Como Regularizar",
+        "descricao": "Não pagou o DAS do MEI? Veja multas, juros, perda de benefícios do INSS e como regularizar 100% online. Guia atualizado 2026.",
         "data": "2026-02-19",
         "categoria": "Impostos",
         "template": "artigos/mei_nao_pagou_das_o_que_acontece.html"
@@ -119,36 +116,36 @@ ARTIGOS = {
 
     # ============ 5 ARTIGOS POR ATIVIDADE PROFISSIONAL ============
     "mei-eletricista": {
-        "titulo": "MEI Eletricista em 2026: CNAE, DAS, CBO e Como Se Formalizar",
-        "descricao": "Guia completo para eletricistas que querem ser MEI em 2026: CNAE correto, valor do DAS, CBO e dicas de precificação.",
+        "titulo": "MEI Eletricista 2026: CNAE, DAS R$ 82,05, CBO e Como Se Formalizar",
+        "descricao": "Guia completo para eletricista ser MEI em 2026: CNAE 4321-5/00, DAS de R$ 82,05, CBO 7156-05 e dicas de precificação.",
         "data": "2026-03-01",
         "categoria": "Atividades",
         "template": "artigos/mei_eletricista.html"
     },
     "mei-manicure": {
-        "titulo": "MEI Manicure em 2026: CNAE, DAS, CBO e Como Se Formalizar",
-        "descricao": "Guia completo para manicures e pedicures que querem ser MEI em 2026: CNAE correto, valor do DAS, CBO e precificação.",
+        "titulo": "MEI Manicure 2026: CNAE, DAS R$ 86,05, CBO e Como Se Formalizar",
+        "descricao": "Guia para manicure e pedicure ser MEI em 2026: CNAE 9602-5/01, DAS de R$ 86,05, CBO 5161-20 e dicas de precificação.",
         "data": "2026-03-03",
         "categoria": "Atividades",
         "template": "artigos/mei_manicure.html"
     },
     "mei-confeiteiro": {
-        "titulo": "MEI Confeiteiro em 2026: CNAE, DAS, CBO e Como Se Formalizar",
-        "descricao": "Guia completo para confeiteiros que querem ser MEI em 2026: CNAE correto, valor do DAS, CBO e dicas de precificação.",
+        "titulo": "MEI Confeiteiro 2026: CNAE, DAS R$ 82,05, CBO e Como Se Formalizar",
+        "descricao": "Guia para confeiteiro ser MEI em 2026: CNAE 1091-1/02, DAS de R$ 82,05, CBO 8483-10 e dicas de precificação.",
         "data": "2026-03-05",
         "categoria": "Atividades",
         "template": "artigos/mei_confeiteiro.html"
     },
     "mei-designer-grafico": {
         "titulo": "Designer Gráfico Pode Ser MEI? Entenda a Regra em 2026",
-        "descricao": "Descubra por que Designer Gráfico não pode ser MEI em 2026, qual CNAE usar e como se formalizar como ME.",
+        "descricao": "Designer Gráfico não pode ser MEI. Entenda o motivo, qual CNAE usar (7410-2/99) e como se formalizar como ME em 2026.",
         "data": "2026-03-07",
         "categoria": "Atividades",
         "template": "artigos/mei_designer_grafico.html"
     },
     "mei-motorista-app": {
-        "titulo": "MEI Motorista de App em 2026: CNAE, DAS, CBO e Regras",
-        "descricao": "Guia completo para motoristas de aplicativo que querem ser MEI em 2026: CNAE correto, valor do DAS, CBO e precificação.",
+        "titulo": "MEI Motorista de App 2026: CNAE Correto, DAS R$ 82,05 e Regras",
+        "descricao": "Motorista de app pode ser MEI em 2026. Veja o CNAE correto (4923-0/01), DAS de R$ 82,05, CBO 5191-10 e dicas de precificação.",
         "data": "2026-03-09",
         "categoria": "Atividades",
         "template": "artigos/mei_motorista_app.html"
