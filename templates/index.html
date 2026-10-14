@@ -1,65 +1,66 @@
 {% extends "base.html" %}
 
-{% block title %}Simulador MEI 2026 | Calcule seu DAS Grátis em 10 Segundos{% endblock %}
-{% block meta_description %}Simulador MEI 2026 gratuito e sem cadastro. Calcule seu DAS em 10 segundos para comércio, serviços, comércio+serviços e caminhoneiro. Valores atualizados.{% endblock %}
+{% block title %}Calculadora e Simulador MEI 2026: Calcule seu DAS Grátis{% endblock %}
+{% block meta_description %}Calculadora MEI 2026 grátis e sem cadastro: simule o DAS e o limite de faturamento em segundos para comércio, serviços e caminhoneiro. Valores atualizados.{% endblock %}
+
+{% block meta %}
+<script type="application/ld+json">
+{{ {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Calculadora MEI 2026",
+    "url": "https://www.calculadora-mei.net.br/",
+    "description": "Simulador gratuito do DAS do MEI e do limite de faturamento anual.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "pt-BR",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "BRL"}
+} | tojson }}
+</script>
+{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <h1>Calculadora MEI 2026</h1>
-    <p>Calcule o DAS, acompanhe o limite de faturamento e entenda as obrigações do Microempreendedor Individual.</p>
-    <a href="/simulador-mei" class="botao botao-primario">Calcular meu DAS agora</a>
-    <br>
-    <span class="badge-gratuito">100% gratuito e sem cadastro</span>
-</section>
+<section class="simulador">
+    <div class="simulador-topo">
+        <span class="badge-gratuito">Grátis e sem cadastro · Valores 2026</span>
+        <h1>Calculadora MEI 2026</h1>
+        <p>Simule o DAS do MEI e o limite de faturamento em segundos. Informe quanto você fatura e escolha sua atividade.</p>
+    </div>
 
-<div class="cards">
-    <div class="card">
-        <span class="icone" aria-hidden="true">🧮</span>
-        <h3>Simulador de DAS</h3>
-        <p>Descubra quanto você paga de DAS por mês de acordo com a sua atividade.</p>
-        <a href="/simulador-mei" class="botao botao-secundario">Simular agora</a>
-    </div>
-    <div class="card">
-        <span class="icone" aria-hidden="true">📈</span>
-        <h3>Limite de faturamento</h3>
-        <p>Veja se você está perto do limite anual de R$ 81.000 do MEI.</p>
-        <a href="/artigos/teto-faturamento" class="botao botao-secundario">Saiba mais</a>
-    </div>
-    <div class="card">
-        <span class="icone" aria-hidden="true">📋</span>
-        <h3>Obrigações do MEI</h3>
-        <p>O que você precisa pagar e declarar todo mês e todo ano.</p>
-        <a href="/artigos/obrigacoes-mei" class="botao botao-secundario">Saiba mais</a>
-    </div>
-</div>
+    {% include "_calculadora.html" %}
+</section>
 
 <section class="bloco-info">
-    <h2>O que é MEI?</h2>
-    <p>O <strong>Microempreendedor Individual (MEI)</strong> é uma categoria empresarial criada pela Lei Complementar nº 128/2008 para formalizar pequenos negócios. Quem é MEI tem <strong>CNPJ, pode emitir nota fiscal e tem acesso a benefícios do INSS</strong>, como aposentadoria, auxílio-doença e salário-maternidade.</p>
-    <p>Em 2026, o limite de faturamento é de <strong>R$ 81.000 por ano</strong> e o MEI paga um valor fixo mensal chamado <strong>DAS (Documento de Arrecadação do Simples Nacional)</strong>, que reúne INSS, ICMS e ISS em uma única guia.</p>
+    <h2>Como calcular o imposto do MEI</h2>
+    <p>O imposto do MEI é pago em uma guia única mensal, o <strong>DAS (Documento de Arrecadação do Simples Nacional)</strong>. O valor é <strong>fixo</strong> e não depende de quanto você faturou no mês. Em 2026 ele é formado por:</p>
+    <ul>
+        <li><strong>INSS:</strong> 5% do salário mínimo (R$ 81,05). No MEI Caminhoneiro, 12% (R$ 194,52).</li>
+        <li><strong>ICMS:</strong> R$ 1,00 para comércio e indústria.</li>
+        <li><strong>ISS:</strong> R$ 5,00 para prestação de serviços.</li>
+    </ul>
     <div class="destaque-amarelo">
-        <strong>Valores de 2026:</strong> o DAS varia entre <strong>R$ 82,05 e R$ 87,05</strong>, dependendo da atividade. Para o MEI Caminhoneiro, o valor é de <strong>R$ 195,52</strong>.
+        <strong>Resumo:</strong> comércio/indústria paga <strong>R$ 82,05</strong>, serviços <strong>R$ 86,05</strong>, comércio + serviços <strong>R$ 87,05</strong> e MEI Caminhoneiro <strong>R$ 195,52</strong> por mês.
     </div>
+    <p>Veja o passo a passo completo em <a href="/simulador-mei">como calcular o imposto do MEI</a> e no <a href="/artigos/guia-impostos-mei">guia de impostos do MEI</a>.</p>
 </section>
 
 <section>
-    <h2>Quanto o MEI paga de DAS em 2026</h2>
-    <table>
-        <thead>
-            <tr><th>Atividade</th><th>DAS mensal</th></tr>
-        </thead>
-        <tbody>
-            <tr><td>Comércio / Indústria</td><td>R$ 82,05</td></tr>
-            <tr><td>Serviços</td><td>R$ 86,05</td></tr>
-            <tr><td>Comércio + Serviços</td><td>R$ 87,05</td></tr>
-            <tr><td>MEI Caminhoneiro</td><td>R$ 195,52</td></tr>
-        </tbody>
-    </table>
-    <p>Entenda cada parte do imposto no nosso <a href="/artigos/guia-impostos-mei">guia de impostos do MEI</a>.</p>
+    <h2>Simulador de faturamento do MEI</h2>
+    <p>Além do DAS, a calculadora projeta o seu <strong>faturamento anual</strong> e mostra quanto do limite você já usou. O limite do MEI é de <strong>R$ 81.000 por ano</strong> (média de R$ 6.750 por mês) e de <strong>R$ 251.600</strong> para o MEI Caminhoneiro. Quem passa do limite pode ser desenquadrado e passar a pagar impostos como Microempresa. Entenda as regras em <a href="/artigos/teto-faturamento">teto de faturamento do MEI</a>.</p>
+
+    <h2>Perguntas frequentes</h2>
+    <h3>O que é MEI?</h3>
+    <p>O <strong>Microempreendedor Individual (MEI)</strong> é uma categoria criada pela Lei Complementar nº 128/2008 para formalizar pequenos negócios. O MEI tem CNPJ, pode emitir nota fiscal e tem acesso a benefícios do INSS, como aposentadoria e auxílio-doença. Veja <a href="/artigos/como-abrir-mei">como abrir o MEI</a>.</p>
+    <h3>Quando vence o DAS?</h3>
+    <p>Todo dia 20 do mês seguinte ao de referência. Veja <a href="/artigos/como-pagar-das-mei">como pagar o DAS do MEI</a>.</p>
+    <h3>Quais são as obrigações mensais do MEI?</h3>
+    <p>Pagar o DAS, emitir nota fiscal quando exigido e registrar o faturamento no relatório mensal de receitas. Veja a lista completa de <a href="/artigos/obrigacoes-mei">obrigações do MEI</a>.</p>
+    <h3>A calculadora é oficial?</h3>
+    <p>Não. É uma ferramenta educativa baseada nos valores divulgados pela Receita Federal. A guia oficial é gerada no PGMEI, no Portal do Simples Nacional.</p>
 </section>
 
 <section>
-    <h2>Artigos recentes</h2>
+    <h2>Guias do MEI</h2>
     <div class="lista-artigos">
         {% for slug, artigo in recentes %}
         <article class="card-artigo">
@@ -69,6 +70,6 @@
         </article>
         {% endfor %}
     </div>
-    <p><a href="/artigos" class="botao botao-secundario">Ver todos os artigos</a></p>
+    <p><a href="/artigos" class="botao botao-secundario">Ver todos os guias</a></p>
 </section>
 {% endblock %}

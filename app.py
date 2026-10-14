@@ -210,14 +210,19 @@ def enviar_email_contato(nome, email, mensagem):
 # ============================================================
 # ROTAS PRINCIPAIS
 # ============================================================
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     recentes = sorted(ARTIGOS.items(), key=lambda x: x[1]['data'], reverse=True)[:6]
-    return render_template('index.html', recentes=recentes)
+    return render_template('index.html', recentes=recentes, resultado=processar_simulador())
 
 
 @app.route('/simulador-mei', methods=['GET', 'POST'])
 def simulador_mei():
+    return render_template('simulador_mei.html', resultado=processar_simulador())
+
+
+def processar_simulador():
+    """Calcula o DAS a partir do formulário enviado (POST). Retorna None em GET ou erro."""
     resultado = None
     if request.method == 'POST':
         try:
@@ -299,7 +304,7 @@ def simulador_mei():
             app.logger.exception('Erro no simulador')
             flash('Não foi possível fazer o cálculo. Confira os valores e tente novamente.', 'error')
 
-    return render_template('simulador_mei.html', resultado=resultado)
+    return resultado
 
 
 # ============================================================
