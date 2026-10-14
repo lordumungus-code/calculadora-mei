@@ -1,8 +1,35 @@
 import os
+import smtplib
+from datetime import date
+from email.message import EmailMessage
 from flask import Flask, render_template, request, flash, redirect, url_for, Response
 
 app = Flask(__name__)
-app.secret_key = 'mei_simulator_secret_key_2026'
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-only-troque-em-producao')
+
+# E-mail que recebe as mensagens do formulário de contato (configure no servidor)
+CONTATO_EMAIL = os.environ.get('CONTATO_EMAIL', '')
+
+MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho',
+         'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+
+
+@app.template_filter('data_br')
+def data_br(valor):
+    """'2026-01-10' -> '10 de janeiro de 2026'"""
+    d = date.fromisoformat(valor)
+    return f"{d.day} de {MESES[d.month - 1]} de {d.year}"
+
+
+@app.template_filter('brl')
+def brl(valor):
+    """1234.5 -> '1.234,50'"""
+    return f"{valor:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+
+
+@app.context_processor
+def inject_globals():
+    return {'contato_email': CONTATO_EMAIL}
 
 ARTIGOS = {
     # ============ 5 ARTIGOS ORIGINAIS ============
@@ -152,8 +179,32 @@ ARTIGOS = {
     },
 }
 
-# Simulando banco de dados para contatos
-contatos = []
+
+def enviar_email_contato(nome, email, mensagem):
+    """Envia a mensagem do formulário via SMTP. Retorna True se enviou."""
+    host = os.environ.get('SMTP_HOST')
+    usuario = os.environ.get('SMTP_USER')
+    senha = os.environ.get('SMTP_PASSWORD')
+    if not (host and usuario and senha and CONTATO_EMAIL):
+        app.logger.warning('SMTP não configurado; mensagem de %s <%s>: %s', nome, email, mensagem)
+        return False
+
+    msg = EmailMessage()
+    msg['Subject'] = f'[Calculadora MEI] Contato de {nome}'
+    msg['From'] = usuario
+    msg['To'] = CONTATO_EMAIL
+    msg['Reply-To'] = email
+    msg.set_content(f'Nome: {nome}\nE-mail: {email}\n\n{mensagem}')
+
+    try:
+        with smtplib.SMTP(host, int(os.environ.get('SMTP_PORT', 587)), timeout=10) as smtp:
+            smtp.starttls()
+            smtp.login(usuario, senha)
+            smtp.send_message(msg)
+        return True
+    except Exception:
+        app.logger.exception('Falha ao enviar e-mail de contato')
+        return False
 
 
 # ============================================================
@@ -161,7 +212,8 @@ contatos = []
 # ============================================================
 @app.route('/')
 def index():
-    return render_template('index.html')
+    recentes = sorted(ARTIGOS.items(), key=lambda x: x[1]['data'], reverse=True)[:6]
+    return render_template('index.html', recentes=recentes)
 
 
 @app.route('/simulador-mei', methods=['GET', 'POST'])
@@ -208,15 +260,19 @@ def simulador_mei():
                 nome_anexo = "Comércio e Indústria"
                 descricao = "INSS + ICMS"
 
+            if faturamento_mensal < 0:
+                raise ValueError
+
             faturamento_anual = faturamento_mensal * 12
-            limite_anual = 81000.00
+            # MEI Caminhoneiro tem limite próprio de R$ 251.600/ano
+            limite_anual = 251600.00 if anexo == 'CAMINHONEIRO' else 81000.00
             percentual_limite = (faturamento_anual / limite_anual) * 100
 
             if faturamento_anual > limite_anual:
                 alerta = "ATENÇÃO: Seu faturamento anual ultrapassa o limite do MEI! Consulte um contador."
                 classe_alerta = "danger"
             elif faturamento_anual >= limite_anual * 0.9:
-                alerta = f"Cuidado: você está a R$ {limite_anual - faturamento_anual:.2f} de atingir o limite do MEI."
+                alerta = f"Cuidado: você está a R$ {brl(limite_anual - faturamento_anual)} de atingir o limite do MEI."
                 classe_alerta = "warning"
             else:
                 alerta = None
@@ -233,13 +289,15 @@ def simulador_mei():
                 'inss': inss_caminhoneiro if anexo == 'CAMINHONEIRO' else inss_geral,
                 'icms': icms if anexo in ('I', 'III', 'CAMINHONEIRO') else 0,
                 'iss': iss if anexo in ('II', 'III') else 0,
+                'caminhoneiro': anexo == 'CAMINHONEIRO',
                 'alerta': alerta,
                 'classe_alerta': classe_alerta,
             }
         except ValueError:
             flash('Por favor, insira valores numéricos válidos', 'error')
-        except Exception as e:
-            flash(f'Erro no cálculo: {str(e)}', 'error')
+        except Exception:
+            app.logger.exception('Erro no simulador')
+            flash('Não foi possível fazer o cálculo. Confira os valores e tente novamente.', 'error')
 
     return render_template('simulador_mei.html', resultado=resultado)
 
@@ -256,21 +314,20 @@ def sobre():
 def contato():
     if request.method == 'POST':
         try:
-            nome = request.form['nome']
-            email = request.form['email']
-            mensagem = request.form['mensagem']
+            nome = request.form['nome'].strip()
+            email = request.form['email'].strip()
+            mensagem = request.form['mensagem'].strip()
 
             if not nome or not email or not mensagem:
                 flash('Todos os campos são obrigatórios', 'error')
                 return render_template('contato.html')
 
-            contatos.append({
-                'nome': nome,
-                'email': email,
-                'mensagem': mensagem
-            })
-
-            flash('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success')
+            if enviar_email_contato(nome, email, mensagem):
+                flash('Mensagem enviada com sucesso! Responderemos no e-mail informado.', 'success')
+            elif CONTATO_EMAIL:
+                flash(f'Não conseguimos enviar sua mensagem agora. Escreva direto para {CONTATO_EMAIL}.', 'error')
+            else:
+                flash('Não conseguimos enviar sua mensagem agora. Tente novamente mais tarde.', 'error')
         except KeyError:
             flash('Erro ao processar o formulário', 'error')
 
@@ -282,6 +339,11 @@ def contato():
 @app.route('/politica-de-privacidade')
 def politica_privacidade():
     return render_template('politica_privacidade.html')
+
+
+@app.route('/termos-de-uso')
+def termos_uso():
+    return render_template('termos_uso.html')
 
 
 # ============================================================
@@ -318,7 +380,6 @@ def ads_txt():
 def robots():
     conteudo = """User-agent: *
 Allow: /
-Disallow: /static/
 
 Sitemap: https://www.calculadora-mei.net.br/sitemap.xml
 """
@@ -327,22 +388,26 @@ Sitemap: https://www.calculadora-mei.net.br/sitemap.xml
 
 @app.route('/sitemap.xml')
 def sitemap():
+    ultima_data = max(a['data'] for a in ARTIGOS.values())
     urls = [
-        ('/', '1.0', 'weekly'),
-        ('/simulador-mei', '0.9', 'monthly'),
-        ('/artigos', '0.8', 'weekly'),
-        ('/sobre', '0.5', 'monthly'),
-        ('/contato', '0.5', 'monthly'),
-        ('/politica-de-privacidade', '0.3', 'yearly'),
+        ('/', '1.0', 'weekly', ultima_data),
+        ('/simulador-mei', '0.9', 'monthly', None),
+        ('/artigos', '0.8', 'weekly', ultima_data),
+        ('/sobre', '0.5', 'monthly', None),
+        ('/contato', '0.5', 'monthly', None),
+        ('/politica-de-privacidade', '0.3', 'yearly', None),
+        ('/termos-de-uso', '0.3', 'yearly', None),
     ]
-    for slug in ARTIGOS.keys():
-        urls.append((f'/artigos/{slug}', '0.7', 'monthly'))
+    for slug, a in ARTIGOS.items():
+        urls.append((f'/artigos/{slug}', '0.7', 'monthly', a['data']))
 
     xml = ['<?xml version="1.0" encoding="UTF-8"?>']
     xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
-    for url, prio, freq in urls:
+    for url, prio, freq, lastmod in urls:
         xml.append('  <url>')
         xml.append(f'    <loc>https://www.calculadora-mei.net.br{url}</loc>')
+        if lastmod:
+            xml.append(f'    <lastmod>{lastmod}</lastmod>')
         xml.append(f'    <priority>{prio}</priority>')
         xml.append(f'    <changefreq>{freq}</changefreq>')
         xml.append('  </url>')
@@ -359,4 +424,4 @@ def nao_encontrado(e):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=os.environ.get('FLASK_DEBUG') == '1')

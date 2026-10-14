@@ -14,9 +14,14 @@
     <!-- Open Graph -->
     <meta property="og:site_name" content="Calculadora MEI">
     <meta property="og:url" content="https://www.calculadora-mei.net.br{{ request.path }}">
+    <meta property="og:locale" content="pt_BR">
+    {% block og %}
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Simulador MEI 2026 | Calcule seu DAS Grátis">
-    <meta property="og:description" content="Descubra em 10 segundos quanto você paga de DAS como MEI em 2026.">
+    <meta property="og:title" content="{{ self.title() }}">
+    <meta property="og:description" content="{{ self.meta_description() }}">
+    {% endblock %}
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -53,13 +58,15 @@
 </main>
 
 <footer>
-    <p>&copy; 2026 Calculadora MEI. Todos os direitos reservados.</p>
+    <p class="aviso-legal">As informações deste site têm caráter educativo e não substituem a orientação de um contador. Os valores são baseados em fontes oficiais (Receita Federal, Portal do Empreendedor) e podem mudar.</p>
     <p>
         <a href="/sobre">Sobre</a> ·
         <a href="/contato">Contato</a> ·
+        <a href="/artigos">Artigos</a> ·
         <a href="/politica-de-privacidade">Política de Privacidade</a> ·
-        <a href="/artigos">Artigos</a>
+        <a href="/termos-de-uso">Termos de Uso</a>
     </p>
+    <p>&copy; 2026 Calculadora MEI. Todos os direitos reservados.</p>
 </footer>
 
 </body>

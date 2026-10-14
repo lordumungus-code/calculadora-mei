@@ -2,125 +2,73 @@
 
 {% block title %}Simulador MEI 2026 | Calcule seu DAS Grátis em 10 Segundos{% endblock %}
 {% block meta_description %}Simulador MEI 2026 gratuito e sem cadastro. Calcule seu DAS em 10 segundos para comércio, serviços, comércio+serviços e caminhoneiro. Valores atualizados.{% endblock %}
-{% block icon %}house-door-fill{% endblock %}
-{% block page_title %}Simulador MEI para Microempreendedores{% endblock %}
 
 {% block content %}
-<div class="text-center mb-5">
-    <p class="lead text-muted">
-        Calcule o DAS, veja o limite de faturamento e planeje seu negócio como Microempreendedor Individual.
-        <span class="badge-gold ms-2">100% Gratuito</span>
-    </p>
-</div>
+<section class="hero">
+    <h1>Calculadora MEI 2026</h1>
+    <p>Calcule o DAS, acompanhe o limite de faturamento e entenda as obrigações do Microempreendedor Individual.</p>
+    <a href="/simulador-mei" class="botao botao-primario">Calcular meu DAS agora</a>
+    <br>
+    <span class="badge-gratuito">100% gratuito e sem cadastro</span>
+</section>
 
-<div class="row g-4 mb-5">
-    <div class="col-md-4">
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="bi bi-calculator-fill"></i>
-            </div>
-            <h5 class="fw-bold mb-3">Simulador MEI</h5>
-            <p class="text-muted mb-4">Calcule exatamente quanto você vai pagar de DAS mensal</p>
-            <a href="/simulador-mei" class="btn btn-outline-primary">
-                <i class="bi bi-arrow-right me-2"></i>Simular Agora
-            </a>
-        </div>
+<div class="cards">
+    <div class="card">
+        <span class="icone" aria-hidden="true">🧮</span>
+        <h3>Simulador de DAS</h3>
+        <p>Descubra quanto você paga de DAS por mês de acordo com a sua atividade.</p>
+        <a href="/simulador-mei" class="botao botao-secundario">Simular agora</a>
     </div>
-    
-    <div class="col-md-4">
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="bi bi-graph-up"></i>
-            </div>
-            <h5 class="fw-bold mb-3">Limite de Faturamento</h5>
-            <p class="text-muted mb-4">Veja se você está perto do limite anual de R$ 81.000</p>
-            <a href="/artigos/teto-faturamento" class="btn btn-outline-primary">
-                <i class="bi bi-arrow-right me-2"></i>Saiba Mais
-            </a>
-        </div>
+    <div class="card">
+        <span class="icone" aria-hidden="true">📈</span>
+        <h3>Limite de faturamento</h3>
+        <p>Veja se você está perto do limite anual de R$ 81.000 do MEI.</p>
+        <a href="/artigos/teto-faturamento" class="botao botao-secundario">Saiba mais</a>
     </div>
-    
-    <div class="col-md-4">
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="bi bi-file-text-fill"></i>
-            </div>
-            <h5 class="fw-bold mb-3">Obrigações do MEI</h5>
-            <p class="text-muted mb-4">Descubra o que você precisa declarar todo mês</p>
-            <a href="/artigos/obrigacoes-mei" class="btn btn-outline-primary">
-                <i class="bi bi-arrow-right me-2"></i>Saiba Mais
-            </a>
-        </div>
+    <div class="card">
+        <span class="icone" aria-hidden="true">📋</span>
+        <h3>Obrigações do MEI</h3>
+        <p>O que você precisa pagar e declarar todo mês e todo ano.</p>
+        <a href="/artigos/obrigacoes-mei" class="botao botao-secundario">Saiba mais</a>
     </div>
 </div>
 
-<div class="row mb-5">
-    <div class="col-12">
-        <div class="card border-0 p-4" style="background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%); border-radius: 20px;">
-            <h3 class="h4 mb-3" style="color: #0B2B40;">O que é MEI?</h3>
-            <p>O <strong style="color: #2E8B57;">Microempreendedor Individual (MEI)</strong> é uma categoria empresarial criada para formalizar pequenos negócios. Quem é MEI tem direito a <strong>CNPJ, inscrição municipal, emissão de notas fiscais e acesso a benefícios previdenciários</strong> como aposentadoria e auxílio-doença.</p>
-            <p>Atualmente, o limite de faturamento anual é de <strong>R$ 81.000,00</strong> e o MEI paga um valor fixo mensal chamado <strong>DAS (Documento de Arrecadação do Simples Nacional)</strong>.</p>
-            <div class="alert alert-warning-custom mt-3">
-                <i class="bi bi-info-circle-fill me-2" style="color: #B76E00;"></i>
-                <strong>Dado importante:</strong> Em 2026, o valor do DAS varia entre <strong>R$ 82,05 e R$ 87,05</strong> dependendo da atividade. Para o MEI Caminhoneiro, o valor é de <strong>R$ 195,52</strong>.
-            </div>
-        </div>
+<section class="bloco-info">
+    <h2>O que é MEI?</h2>
+    <p>O <strong>Microempreendedor Individual (MEI)</strong> é uma categoria empresarial criada pela Lei Complementar nº 128/2008 para formalizar pequenos negócios. Quem é MEI tem <strong>CNPJ, pode emitir nota fiscal e tem acesso a benefícios do INSS</strong>, como aposentadoria, auxílio-doença e salário-maternidade.</p>
+    <p>Em 2026, o limite de faturamento é de <strong>R$ 81.000 por ano</strong> e o MEI paga um valor fixo mensal chamado <strong>DAS (Documento de Arrecadação do Simples Nacional)</strong>, que reúne INSS, ICMS e ISS em uma única guia.</p>
+    <div class="destaque-amarelo">
+        <strong>Valores de 2026:</strong> o DAS varia entre <strong>R$ 82,05 e R$ 87,05</strong>, dependendo da atividade. Para o MEI Caminhoneiro, o valor é de <strong>R$ 195,52</strong>.
     </div>
-</div>
+</section>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card border-0 p-4" style="background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%); border-radius: 20px;">
-            <h3 class="h4 mb-3" style="color: #0B2B40;">
-                <i class="bi bi-newspaper me-2" style="color: #2E8B57;"></i>Artigos Recentes
-            </h3>
-            <div class="row">
-                <div class="col-md-6">
-                    <a href="/artigos/como-abrir-mei" class="text-decoration-none">
-                        <div class="d-flex align-items-center mb-3 p-2 article-card">
-                            <i class="bi bi-file-earmark-text-fill fs-3 me-3" style="color: #2E8B57;"></i>
-                            <div>
-                                <h6 class="mb-0 fw-bold" style="color: #0B2B40;">Como abrir MEI passo a passo</h6>
-                                <small class="text-muted">Guia completo para se formalizar</small>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6">
-                    <a href="/artigos/mei-ou-me" class="text-decoration-none">
-                        <div class="d-flex align-items-center mb-3 p-2 article-card">
-                            <i class="bi bi-arrow-left-right fs-3 me-3" style="color: #2E8B57;"></i>
-                            <div>
-                                <h6 class="mb-0 fw-bold" style="color: #0B2B40;">MEI ou ME: qual escolher?</h6>
-                                <small class="text-muted">Compare as vantagens de cada modelo</small>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6">
-                    <a href="/artigos/guia-impostos-mei" class="text-decoration-none">
-                        <div class="d-flex align-items-center mb-3 p-2 article-card">
-                            <i class="bi bi-calculator-fill fs-3 me-3" style="color: #2E8B57;"></i>
-                            <div>
-                                <h6 class="mb-0 fw-bold" style="color: #0B2B40;">Guia completo de impostos MEI</h6>
-                                <small class="text-muted">Entenda o DAS e outras obrigações</small>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6">
-                    <a href="/artigos/teto-faturamento" class="text-decoration-none">
-                        <div class="d-flex align-items-center mb-3 p-2 article-card">
-                            <i class="bi bi-graph-up fs-3 me-3" style="color: #2E8B57;"></i>
-                            <div>
-                                <h6 class="mb-0 fw-bold" style="color: #0B2B40;">Limite de faturamento do MEI</h6>
-                                <small class="text-muted">O que fazer se ultrapassar o teto</small>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
+<section>
+    <h2>Quanto o MEI paga de DAS em 2026</h2>
+    <table>
+        <thead>
+            <tr><th>Atividade</th><th>DAS mensal</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Comércio / Indústria</td><td>R$ 82,05</td></tr>
+            <tr><td>Serviços</td><td>R$ 86,05</td></tr>
+            <tr><td>Comércio + Serviços</td><td>R$ 87,05</td></tr>
+            <tr><td>MEI Caminhoneiro</td><td>R$ 195,52</td></tr>
+        </tbody>
+    </table>
+    <p>Entenda cada parte do imposto no nosso <a href="/artigos/guia-impostos-mei">guia de impostos do MEI</a>.</p>
+</section>
+
+<section>
+    <h2>Artigos recentes</h2>
+    <div class="lista-artigos">
+        {% for slug, artigo in recentes %}
+        <article class="card-artigo">
+            <h3><a href="/artigos/{{ slug }}">{{ artigo.titulo }}</a></h3>
+            <p>{{ artigo.descricao }}</p>
+            <small>{{ artigo.data | data_br }} · {{ artigo.categoria }}</small>
+        </article>
+        {% endfor %}
     </div>
-</div>
+    <p><a href="/artigos" class="botao botao-secundario">Ver todos os artigos</a></p>
+</section>
 {% endblock %}

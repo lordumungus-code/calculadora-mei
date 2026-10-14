@@ -1,54 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}Sobre o Simulador MEI | Quem somos{% endblock %}
-{% block icon %}info-circle{% endblock %}
-{% block page_title %}Sobre o Simulador MEI{% endblock %}
+{% block title %}Sobre a Calculadora MEI | Quem Somos{% endblock %}
+{% block meta_description %}Conheça a Calculadora MEI: ferramentas gratuitas e guias baseados em fontes oficiais para ajudar o Microempreendedor Individual.{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-lg-8 mx-auto">
-        <div class="text-center mb-5">
-            <i class="bi bi-calculator-fill" style="font-size: 4rem; color: #667eea;"></i>
-            <h2 class="mt-3">Ajudando empreendedores desde 2026</h2>
-            <p class="lead text-muted">
-                Ferramenta gratuita para simplificar a vida do Microempreendedor Individual
-            </p>
-        </div>
-        
-        <div class="card bg-light border-0 mb-4">
-            <div class="card-body p-4">
-                <h5 class="card-title fw-bold mb-3" style="color: #667eea;">
-                    <i class="bi bi-bullseye me-2"></i>Nossa Missão
-                </h5>
-                <p>O Simulador MEI nasceu para ajudar pequenos empreendedores a entenderem seus impostos e planejarem seus negócios. Sabemos que a burocracia pode ser um obstáculo, e nossa missão é simplificar esse processo com ferramentas claras e precisas.</p>
-            </div>
-        </div>
-        
-        <div class="card bg-light border-0 mb-4">
-            <div class="card-body p-4">
-                <h5 class="card-title fw-bold mb-3" style="color: #667eea;">
-                    <i class="bi bi-tools me-2"></i>O que oferecemos
-                </h5>
-                <ul>
-                    <li><strong>Simulador de DAS:</strong> Calcule exatamente quanto pagar de imposto</li>
-                    <li><strong>Acompanhamento de limite:</strong> Veja se está perto do teto de R$ 81.000</li>
-                    <li><strong>Artigos educativos:</strong> Guias completos sobre o MEI</li>
-                    <li><strong>Ferramentas gratuitas:</strong> Sem cadastro, sem pegadinhas</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="card bg-light border-0">
-            <div class="card-body p-4">
-                <h5 class="card-title fw-bold mb-3" style="color: #667eea;">
-                    <i class="bi bi-envelope me-2"></i>Contato
-                </h5>
-                <p>Tem dúvidas, sugestões ou encontrou algum problema? Entre em contato conosco!</p>
-                <a href="/contato" class="btn btn-primary">
-                    <i class="bi bi-chat me-2"></i>Fale Conosco
-                </a>
-            </div>
-        </div>
+<article class="artigo">
+    <h1>Sobre a Calculadora MEI</h1>
+    <p>A Calculadora MEI é um site gratuito criado em 2026 para ajudar microempreendedores individuais a entenderem seus impostos e obrigações e a planejarem o próprio negócio sem complicação.</p>
+
+    <div class="conteudo-artigo">
+        <h2>Nossa missão</h2>
+        <p>A burocracia é um dos maiores obstáculos para quem quer empreender no Brasil. Nosso objetivo é traduzir as regras do MEI em uma linguagem simples, com ferramentas práticas e guias diretos ao ponto.</p>
+
+        <h2>O que oferecemos</h2>
+        <ul>
+            <li><strong><a href="/simulador-mei">Simulador de DAS</a>:</strong> calcule quanto você paga de imposto por mês de acordo com a sua atividade.</li>
+            <li><strong>Acompanhamento do limite:</strong> veja se o seu faturamento está perto do teto anual do MEI.</li>
+            <li><strong><a href="/artigos">Guias e artigos</a>:</strong> como abrir, pagar o DAS, emitir nota fiscal, fazer a declaração anual, fechar o MEI e muito mais.</li>
+            <li><strong>Sem cadastro:</strong> todas as ferramentas são gratuitas e não pedem nenhum dado pessoal.</li>
+        </ul>
+
+        <h2>De onde vêm as informações</h2>
+        <p>Todo o conteúdo é baseado em fontes oficiais, que citamos ao final de cada artigo:</p>
+        <ul>
+            <li><a href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor" target="_blank" rel="noopener">Portal do Empreendedor</a> (Governo Federal)</li>
+            <li><a href="https://www8.receita.fazenda.gov.br/SimplesNacional/" target="_blank" rel="noopener">Portal do Simples Nacional</a> (Receita Federal)</li>
+            <li><a href="https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm" target="_blank" rel="noopener">Lei Complementar nº 123/2006</a> e Resolução CGSN nº 140/2018</li>
+            <li><a href="https://sebrae.com.br/sites/PortalSebrae" target="_blank" rel="noopener">Sebrae</a></li>
+        </ul>
+        <p>Revisamos os artigos sempre que há mudanças nas regras, como o reajuste anual do salário mínimo, que altera o valor do DAS.</p>
+
+        <h2>Aviso importante</h2>
+        <p>As informações deste site têm caráter educativo e não substituem a orientação de um contador ou dos órgãos oficiais. Para casos específicos, consulte um profissional de contabilidade ou o Sebrae da sua região.</p>
+
+        <h2>Fale conosco</h2>
+        <p>Encontrou algum erro ou tem uma sugestão de artigo? <a href="/contato">Entre em contato</a>. Sua mensagem nos ajuda a manter o conteúdo correto e atualizado.</p>
     </div>
-</div>
+</article>
 {% endblock %}

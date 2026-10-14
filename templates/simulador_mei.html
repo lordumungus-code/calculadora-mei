@@ -6,70 +6,146 @@
 
 {% block content %}
 <section class="simulador">
-    <h1>Simulador de DAS do MEI</h1>
-    <p>Descubra exatamente quanto você paga de imposto mensal como Microempreendedor Individual.</p>
+    <div class="simulador-topo">
+        <span class="badge-gratuito">Valores atualizados 2026</span>
+        <h1>Simulador de DAS do MEI</h1>
+        <p>Descubra em segundos quanto você paga de imposto por mês e quanto do limite anual já está usando.</p>
+    </div>
 
-    <form method="POST" action="/simulador-mei">
-        <label for="faturamento_mensal">Faturamento mensal (R$)</label>
-        <input type="number" step="0.01" min="0" name="faturamento_mensal" id="faturamento_mensal" required
-               value="{{ request.form.get('faturamento_mensal', '') }}">
+    {% set anexo_atual = request.form.get('anexo', 'I') %}
+    <form method="POST" action="/simulador-mei#resultado" class="form-simulador">
+        <div class="passo">
+            <span class="passo-numero">1</span>
+            <label for="faturamento_mensal">Quanto você fatura por mês?</label>
+        </div>
+        <div class="campo-moeda">
+            <span class="campo-moeda-prefixo">R$</span>
+            <input type="number" step="0.01" min="0" name="faturamento_mensal" id="faturamento_mensal" required
+                   inputmode="decimal" placeholder="Ex.: 5000"
+                   value="{{ request.form.get('faturamento_mensal', '') }}">
+        </div>
+        <p class="campo-ajuda">Use a média mensal. O limite do MEI é de R$ 81.000 por ano (R$ 6.750 por mês).</p>
 
-       <label for="anexo">Tipo de atividade</label>
-<select name="anexo" id="anexo" required>
-    <option value="I" {% if request.form.get('anexo') == 'I' %}selected{% endif %}>Comércio / Indústria (R$ 82,05)</option>
-    <option value="II" {% if request.form.get('anexo') == 'II' %}selected{% endif %}>Serviços (R$ 86,05)</option>
-    <option value="III" {% if request.form.get('anexo') == 'III' %}selected{% endif %}>Comércio + Serviços (R$ 87,05)</option>
-    <option value="CAMINHONEIRO" {% if request.form.get('anexo') == 'CAMINHONEIRO' %}selected{% endif %}>MEI Caminhoneiro (R$ 195,52)</option>
-</select>
+        <div class="passo">
+            <span class="passo-numero">2</span>
+            <span class="passo-titulo" id="titulo-atividade">Qual é a sua atividade?</span>
+        </div>
+        <div class="opcoes-atividade" role="radiogroup" aria-labelledby="titulo-atividade">
+            {% for valor, nome, detalhe, preco in [
+                ('I', 'Comércio / Indústria', 'Venda ou fabricação de produtos', '82,05'),
+                ('II', 'Serviços', 'Prestação de serviços', '86,05'),
+                ('III', 'Comércio + Serviços', 'Vende produtos e presta serviços', '87,05'),
+                ('CAMINHONEIRO', 'MEI Caminhoneiro', 'Transporte de cargas', '195,52'),
+            ] %}
+            <label class="opcao-atividade">
+                <input type="radio" name="anexo" value="{{ valor }}" {% if anexo_atual == valor %}checked{% endif %} required>
+                <span class="opcao-conteudo">
+                    <span class="opcao-nome">{{ nome }}</span>
+                    <span class="opcao-detalhe">{{ detalhe }}</span>
+                    <span class="opcao-preco">R$ {{ preco }}<small>/mês</small></span>
+                </span>
+            </label>
+            {% endfor %}
+        </div>
 
-        <button type="submit">Calcular DAS</button>
+        <button type="submit">Calcular meu DAS</button>
     </form>
 
     {% if resultado %}
-    <div class="resultado">
-        <h2>Resultado</h2>
-
-        {% if resultado.alerta %}
-        <div class="alerta alerta-{{ resultado.classe_alerta }}">
-            {{ resultado.alerta }}
+    <div class="resultado" id="resultado">
+        <div class="resultado-destaque">
+            <span class="resultado-rotulo">Seu DAS mensal</span>
+            <span class="resultado-valor">R$ {{ resultado.das_pagar|brl }}</span>
+            <span class="resultado-sub">{{ resultado.nome_anexo }} · vence todo dia 20</span>
         </div>
-        {% endif %}
 
-        <p><strong>Valor do DAS mensal:</strong> R$ {{ "%.2f"|format(resultado.das_pagar) }}</p>
-        <p><strong>Atividade:</strong> {{ resultado.nome_anexo }}</p>
-        <p><strong>Composição:</strong></p>
-        <ul>
-            {% if resultado.inss == 194.52 %}
-<li>INSS (12% do salário mínimo — MEI Caminhoneiro): R$ {{ "%.2f"|format(resultado.inss) }}</li>
-{% else %}
-<li>INSS (5% do salário mínimo): R$ {{ "%.2f"|format(resultado.inss) }}</li>
-{% endif %}
-            {% if resultado.icms > 0 %}<li>ICMS: R$ {{ "%.2f"|format(resultado.icms) }}</li>{% endif %}
-            {% if resultado.iss > 0 %}<li>ISS: R$ {{ "%.2f"|format(resultado.iss) }}</li>{% endif %}
-        </ul>
+        <div class="resultado-corpo">
+            {% if resultado.alerta %}
+            <div class="alerta alerta-{{ resultado.classe_alerta }}">
+                {{ resultado.alerta }}
+            </div>
+            {% endif %}
 
-        <hr>
+            <h2>Composição do DAS</h2>
+            <div class="composicao">
+                <div class="composicao-item">
+                    <span>INSS</span>
+                    <strong>R$ {{ resultado.inss|brl }}</strong>
+                    <small>{{ '12%' if resultado.caminhoneiro else '5%' }} do salário mínimo</small>
+                </div>
+                {% if resultado.icms > 0 %}
+                <div class="composicao-item">
+                    <span>ICMS</span>
+                    <strong>R$ {{ resultado.icms|brl }}</strong>
+                    <small>Comércio e indústria</small>
+                </div>
+                {% endif %}
+                {% if resultado.iss > 0 %}
+                <div class="composicao-item">
+                    <span>ISS</span>
+                    <strong>R$ {{ resultado.iss|brl }}</strong>
+                    <small>Prestação de serviços</small>
+                </div>
+                {% endif %}
+            </div>
 
-        <p><strong>Faturamento mensal:</strong> R$ {{ "%.2f"|format(resultado.faturamento_mensal) }}</p>
-        <p><strong>Faturamento anual (projetado):</strong> R$ {{ "%.2f"|format(resultado.faturamento_anual) }}</p>
-        <p><strong>Limite anual MEI:</strong> R$ {{ "%.2f"|format(resultado.limite_anual) }}</p>
-        <p><strong>Uso do limite:</strong> {{ resultado.percentual_limite }}%</p>
+            <h2>Limite de faturamento</h2>
+            <div class="limite-barra {{ 'limite-' ~ resultado.classe_alerta if resultado.classe_alerta else '' }}"
+                 role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ [resultado.percentual_limite, 100]|min }}">
+                <span style="width: {{ [resultado.percentual_limite, 100]|min }}%"></span>
+            </div>
+            <p class="limite-legenda">
+                <strong>{{ resultado.percentual_limite|string|replace('.', ',') }}%</strong> do limite anual
+                {{ 'do MEI Caminhoneiro' if resultado.caminhoneiro else 'do MEI' }} usado
+            </p>
 
-        <div class="cta">
-            <p>Quer entender melhor as regras? Leia nossos artigos:</p>
-            <a href="/artigos/teto-faturamento" class="botao">Limite de faturamento do MEI</a>
-            <a href="/artigos/guia-impostos-mei" class="botao">Guia de impostos do MEI</a>
+            <dl class="resumo-numeros">
+                <div><dt>Faturamento mensal</dt><dd>R$ {{ resultado.faturamento_mensal|brl }}</dd></div>
+                <div><dt>Projeção anual</dt><dd>R$ {{ resultado.faturamento_anual|brl }}</dd></div>
+                <div><dt>Limite anual</dt><dd>R$ {{ resultado.limite_anual|brl }}</dd></div>
+            </dl>
+
+            <div class="resultado-links">
+                <p>Quer entender melhor as regras?</p>
+                <a href="/artigos/teto-faturamento" class="botao botao-secundario">Limite de faturamento</a>
+                <a href="/artigos/como-pagar-das-mei" class="botao botao-secundario">Como pagar o DAS</a>
+            </div>
         </div>
     </div>
     {% endif %}
 
-    <!-- Anúncio -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-2580999860510639"
-         data-ad-slot="0000000000"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <section class="conteudo-artigo">
+        <h2>Como o DAS do MEI é calculado</h2>
+        <p>O DAS (Documento de Arrecadação do Simples Nacional) do MEI é um <strong>valor fixo mensal</strong>, que não depende de quanto você faturou no mês. Ele é formado por três partes:</p>
+        <ul>
+            <li><strong>INSS:</strong> 5% do salário mínimo (R$ 81,05 em 2026, com salário mínimo de R$ 1.621,00). Para o MEI Caminhoneiro, a alíquota é de 12% (R$ 194,52).</li>
+            <li><strong>ICMS:</strong> R$ 1,00, cobrado de quem trabalha com comércio ou indústria.</li>
+            <li><strong>ISS:</strong> R$ 5,00, cobrado de quem presta serviços.</li>
+        </ul>
+
+        <table>
+            <thead>
+                <tr><th>Atividade</th><th>Composição</th><th>DAS 2026</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Comércio / Indústria</td><td>INSS + ICMS</td><td>R$ 82,05</td></tr>
+                <tr><td>Serviços</td><td>INSS + ISS</td><td>R$ 86,05</td></tr>
+                <tr><td>Comércio + Serviços</td><td>INSS + ICMS + ISS</td><td>R$ 87,05</td></tr>
+                <tr><td>MEI Caminhoneiro</td><td>INSS 12% + ICMS</td><td>R$ 195,52</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Por que informar o faturamento?</h2>
+        <p>O faturamento não muda o valor do DAS, mas é usado para verificar se você está dentro do <strong>limite anual do MEI</strong>: R$ 81.000 por ano (média de R$ 6.750 por mês) ou R$ 251.600 para o MEI Caminhoneiro. Quem ultrapassa o limite pode ser desenquadrado e passar a pagar impostos como Microempresa. Saiba mais em <a href="/artigos/o-que-acontece-se-ultrapassar-limite-mei">o que acontece se ultrapassar o limite do MEI</a>.</p>
+
+        <h2>Perguntas frequentes</h2>
+        <h3>Qual o prazo para pagar o DAS?</h3>
+        <p>O vencimento é todo dia 20 do mês seguinte ao de referência. Veja o passo a passo em <a href="/artigos/como-pagar-das-mei">como pagar o DAS do MEI</a>.</p>
+        <h3>Preciso pagar o DAS mesmo sem faturar?</h3>
+        <p>Sim. O valor é fixo e deve ser pago todo mês enquanto o CNPJ estiver ativo, mesmo que você não tenha vendido nada. Entenda as consequências em <a href="/artigos/mei-nao-pagou-das-o-que-acontece">MEI não pagou o DAS</a>.</p>
+        <h3>O resultado do simulador é oficial?</h3>
+        <p>Não. O simulador é uma ferramenta educativa baseada nos valores divulgados pela Receita Federal. O valor oficial do seu DAS aparece no <a href="https://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao" target="_blank" rel="noopener">PGMEI</a>, o sistema da Receita para gerar a guia.</p>
+    </section>
+
 </section>
 {% endblock %}
