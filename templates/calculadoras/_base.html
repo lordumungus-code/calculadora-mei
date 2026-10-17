@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}{{ calc_meta.titulo }}{% endblock %}
+{% block meta_description %}{{ calc_meta.descricao }} Grátis, sem cadastro e com valores de 2026.{% endblock %}
+
+{% block meta %}
+<script type="application/ld+json">
+{{ {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": calc_meta.titulo,
+    "url": "https://www.calculadora-mei.net.br/" ~ calc_meta.slug,
+    "description": calc_meta.descricao,
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "pt-BR",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "BRL"}
+} | tojson }}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="simulador">
+    <nav class="migalhas" aria-label="Você está em">
+        <a href="/">Início</a> › <a href="/calculadoras">Calculadoras</a> › {{ calc_meta.nome }}
+    </nav>
+
+    <div class="simulador-topo">
+        <span class="badge-gratuito">Grátis e sem cadastro · Regras 2026</span>
+        <h1>{% block h1 %}{% endblock %}</h1>
+        <p>{% block intro %}{% endblock %}</p>
+    </div>
+
+    <form method="POST" action="{{ request.path }}#resultado" class="form-simulador">
+        {% block formulario %}{% endblock %}
+    </form>
+
+    {% if resultado %}
+    <div class="resultado" id="resultado">
+        {% block resultado %}{% endblock %}
+    </div>
+    {% endif %}
+
+    <section class="conteudo-artigo">
+        {% block explicacao %}{% endblock %}
+
+        <p class="aviso-calculo"><strong>Aviso:</strong> os resultados são estimativas educativas, baseadas na legislação vigente em 2026. Para valores oficiais, consulte o <a href="https://www8.receita.fazenda.gov.br/SimplesNacional/" target="_blank" rel="noopener">Portal do Simples Nacional</a> ou um contador.</p>
+    </section>
+
+    <section class="outras-calculadoras">
+        <h2>Outras calculadoras para o MEI</h2>
+        <div class="cards">
+            {% if request.path != '/' %}
+            <a class="card card-link" href="/">
+                <span class="icone" aria-hidden="true">🧮</span>
+                <h3>Calculadora de DAS</h3>
+                <p>Quanto você paga de DAS por mês e quanto do limite já usou.</p>
+            </a>
+            {% endif %}
+            {% for c in calculadoras if c.slug != calc_meta.slug %}
+            <a class="card card-link" href="/{{ c.slug }}">
+                <span class="icone" aria-hidden="true">{{ c.icone }}</span>
+                <h3>{{ c.nome }}</h3>
+                <p>{{ c.descricao }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "calculadoras/_base.html" %}
+
+{% block h1 %}Calculadora de DAS atrasado do MEI{% endblock %}
+{% block intro %}Esqueceu de pagar o DAS? Veja quanto ficam a multa e os juros e o valor total para pagar hoje.{% endblock %}
+
+{% block formulario %}
+{% set anexo_atual = request.form.get('anexo', 'I') %}
+<div class="calc-campos">
+    <div>
+        <label for="competencia">Mês de referência do DAS</label>
+        <input type="month" id="competencia" name="competencia" required
+               min="2024-01" max="{{ hoje.strftime('%Y-%m') }}"
+               value="{{ request.form.get('competencia', '') }}">
+        <p class="campo-ajuda">O mês em que você faturou. Ex.: DAS de março vence em 20 de abril.</p>
+    </div>
+    <div>
+        <label for="data_pagamento">Data em que vai pagar</label>
+        <input type="date" id="data_pagamento" name="data_pagamento" required
+               value="{{ request.form.get('data_pagamento', hoje.isoformat()) }}">
+    </div>
+</div>
+
+<div class="passo"><span class="passo-titulo" id="titulo-atividade">Atividade</span></div>
+<div class="opcoes-atividade" role="radiogroup" aria-labelledby="titulo-atividade">
+    {% for valor, nome in [('I', 'Comércio / Indústria'), ('II', 'Serviços'), ('III', 'Comércio + Serviços'), ('CAMINHONEIRO', 'MEI Caminhoneiro')] %}
+    <label class="opcao-atividade">
+        <input type="radio" name="anexo" value="{{ valor }}" {% if anexo_atual == valor %}checked{% endif %} required>
+        <span class="opcao-conteudo"><span class="opcao-nome">{{ nome }}</span></span>
+    </label>
+    {% endfor %}
+</div>
+
+<label for="selic">Taxa Selic mensal (%)</label>
+<input type="number" id="selic" name="selic" step="0.01" min="0" max="5"
+       value="{{ request.form.get('selic', '1.00') }}">
+<p class="campo-ajuda">Usamos 1% ao mês como estimativa. A taxa exata de cada mês está na tabela de juros Selic da Receita Federal.</p>
+
+<button type="submit">Calcular DAS atrasado</button>
+{% endblock %}
+
+{% block resultado %}
+<div class="resultado-destaque">
+    <span class="resultado-rotulo">{{ 'Valor a pagar' if resultado.em_dia else 'Total a pagar com multa e juros' }}</span>
+    <span class="resultado-valor">R$ {{ resultado.total|brl }}</span>
+    <span class="resultado-sub">DAS de {{ resultado.competencia }} · {{ resultado.atividade }}</span>
+</div>
+<div class="resultado-corpo">
+    {% if resultado.em_dia %}
+    <div class="alerta alerta-sucesso">Esse DAS ainda está dentro do prazo (vence em {{ resultado.vencimento|data_br }}). Não há multa nem juros.</div>
+    {% else %}
+    <div class="alerta alerta-warning">Atraso de <strong>{{ resultado.dias_atraso }} dias</strong> desde o vencimento em {{ resultado.vencimento|data_br }}.{% if resultado.multa_no_teto %} A multa já atingiu o teto de 20%.{% endif %}</div>
+    {% endif %}
+
+    <h2>Composição do valor</h2>
+    <div class="composicao">
+        <div class="composicao-item"><span>DAS original</span><strong>R$ {{ resultado.valor_original|brl }}</strong><small>Valor da competência</small></div>
+        <div class="composicao-item"><span>Multa</span><strong>R$ {{ resultado.multa|brl }}</strong><small>{{ resultado.multa_pct|string|replace('.', ',') }}% (0,33% ao dia, até 20%)</small></div>
+        <div class="composicao-item"><span>Juros</span><strong>R$ {{ resultado.juros|brl }}</strong><small>{{ resultado.juros_pct|string|replace('.', ',') }}% (Selic + 1%)</small></div>
+    </div>
+
+    <div class="resultado-links">
+        <p>Próximos passos:</p>
+        <a href="/artigos/mei-nao-pagou-das-o-que-acontece" class="botao botao-secundario">Consequências do atraso</a>
+        <a href="/artigos/como-pagar-das-mei" class="botao botao-secundario">Como gerar a guia</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block explicacao %}
+<h2>Como é calculado o DAS em atraso</h2>
+<p>Quando o DAS do MEI é pago depois do vencimento (dia 20 do mês seguinte), a Receita Federal cobra dois acréscimos sobre o valor original:</p>
+<ul>
+    <li><strong>Multa de mora:</strong> 0,33% por dia de atraso, limitada a 20% do valor do DAS. Esse teto é atingido em cerca de 61 dias.</li>
+    <li><strong>Juros:</strong> taxa Selic acumulada a partir do mês seguinte ao vencimento até o mês anterior ao pagamento, mais 1% no mês do pagamento.</li>
+</ul>
+<p>O valor do DAS também muda conforme o ano da competência, porque o INSS é calculado sobre o salário mínimo da época. Um DAS de 2025 usa o salário mínimo de R$ 1.518,00, e um DAS de 2026 usa R$ 1.621,00.</p>
+
+<h2>Exemplo prático</h2>
+<p>Um MEI de serviços não pagou o DAS de <strong>março de 2026</strong> (R$ 86,05), que venceu em 20 de abril. Se pagar em <strong>15 de junho de 2026</strong>, terá:</p>
+<table>
+    <thead><tr><th>Item</th><th>Cálculo</th><th>Valor</th></tr></thead>
+    <tbody>
+        <tr><td>DAS original</td><td>Serviços 2026</td><td>R$ 86,05</td></tr>
+        <tr><td>Multa</td><td>56 dias × 0,33% = 18,48%</td><td>R$ 15,90</td></tr>
+        <tr><td>Juros</td><td>Selic de maio (1%) + 1% de junho</td><td>R$ 1,72</td></tr>
+        <tr><td><strong>Total</strong></td><td></td><td><strong>R$ 103,67</strong></td></tr>
+    </tbody>
+</table>
+
+<h2>Como pagar o DAS atrasado</h2>
+<ol>
+    <li>Acesse o <a href="https://www8.receita.fazenda.gov.br/SimplesNacional/Aplicacoes/ATSPO/pgmei.app/Identificacao" target="_blank" rel="noopener">PGMEI</a> no Portal do Simples Nacional ou o app MEI.</li>
+    <li>Informe o CNPJ e escolha o ano da competência em atraso.</li>
+    <li>Marque os meses em aberto e informe a data em que vai pagar.</li>
+    <li>O sistema gera a guia já com multa e juros. Pague por Pix, boleto ou débito.</li>
+</ol>
+<p>Se houver muitos meses em atraso, é possível <strong>parcelar</strong> as dívidas do MEI em até 60 vezes pelo próprio Portal do Simples Nacional.</p>
+
+<h2>Perguntas frequentes</h2>
+<h3>O que acontece se eu não pagar o DAS?</h3>
+<p>Além da multa e dos juros, os meses sem pagamento não contam para a aposentadoria e os benefícios do INSS. Dívidas antigas podem ser inscritas na Dívida Ativa e o CNPJ pode ser cancelado. Veja mais em <a href="/artigos/mei-nao-pagou-das-o-que-acontece">MEI não pagou o DAS</a>.</p>
+<h3>Os juros aumentam todo mês?</h3>
+<p>Sim. A multa para de crescer quando chega a 20%, mas os juros Selic continuam correndo a cada mês até o pagamento.</p>
+<h3>O valor da calculadora é exato?</h3>
+<p>É uma estimativa. A diferença costuma ser de centavos, porque a Selic real varia mês a mês e o vencimento pode mudar por feriados. O valor oficial aparece ao gerar a guia no PGMEI.</p>
+{% endblock %}

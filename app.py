@@ -4,6 +4,8 @@ from datetime import date
 from email.message import EmailMessage
 from flask import Flask, render_template, request, flash, redirect, url_for, Response
 
+import calculadoras as calc
+
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-only-troque-em-producao')
 
@@ -16,8 +18,8 @@ MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho',
 
 @app.template_filter('data_br')
 def data_br(valor):
-    """'2026-01-10' -> '10 de janeiro de 2026'"""
-    d = date.fromisoformat(valor)
+    """'2026-01-10' (ou date) -> '10 de janeiro de 2026'"""
+    d = valor if isinstance(valor, date) else date.fromisoformat(valor)
     return f"{d.day} de {MESES[d.month - 1]} de {d.year}"
 
 
@@ -29,7 +31,53 @@ def brl(valor):
 
 @app.context_processor
 def inject_globals():
-    return {'contato_email': CONTATO_EMAIL}
+    return {'contato_email': CONTATO_EMAIL, 'calculadoras': CALCULADORAS}
+
+
+# Artigos que foram unidos a outros: slug antigo -> slug novo (301)
+REDIRECIONAMENTOS = {
+    "o-que-acontece-se-ultrapassar-limite-mei": "teto-faturamento",
+}
+
+# Calculadoras extras (além do simulador de DAS). A ordem define a exibição.
+CALCULADORAS = [
+    {
+        "slug": "calculadora-das-atrasado",
+        "nome": "DAS em atraso",
+        "titulo": "Calculadora de DAS Atrasado MEI 2026: Multa e Juros",
+        "descricao": "Calcule a multa de 0,33% ao dia e os juros Selic do DAS do MEI pago com atraso.",
+        "icone": "⏰",
+    },
+    {
+        "slug": "calculadora-limite-proporcional-mei",
+        "nome": "Limite proporcional",
+        "titulo": "Limite Proporcional do MEI: Calculadora para Quem Abriu no Ano",
+        "descricao": "Descubra seu limite de faturamento no ano de abertura e o que acontece se ultrapassar.",
+        "icone": "📅",
+    },
+    {
+        "slug": "calculadora-mei-ou-me",
+        "nome": "MEI ou ME",
+        "titulo": "Calculadora MEI ou ME: Compare o Imposto no Simples Nacional",
+        "descricao": "Compare o DAS do MEI com o imposto de uma Microempresa no Simples Nacional.",
+        "icone": "⚖️",
+    },
+    {
+        "slug": "calculadora-imposto-de-renda-mei",
+        "nome": "Imposto de Renda do MEI",
+        "titulo": "Calculadora de Imposto de Renda do MEI: Lucro Isento e Tributável",
+        "descricao": "Calcule a parte isenta e a parte tributável do lucro do MEI na declaração de IR.",
+        "icone": "🧾",
+    },
+    {
+        "slug": "calculadora-custo-funcionario-mei",
+        "nome": "Custo de funcionário",
+        "titulo": "Quanto Custa um Funcionário para o MEI? Calculadora 2026",
+        "descricao": "Calcule o custo real de contratar um funcionário: FGTS, INSS, 13º, férias e vale-transporte.",
+        "icone": "👷",
+    },
+]
+CALCULADORAS_POR_SLUG = {c["slug"]: c for c in CALCULADORAS}
 
 ARTIGOS = {
     # ============ 5 ARTIGOS ORIGINAIS ============
@@ -38,7 +86,8 @@ ARTIGOS = {
         "descricao": "Aprenda a abrir MEI gratuitamente em 2026 em 5 passos. Documentos, custos e o que fazer depois. Guia atualizado pela Receita Federal.",
         "data": "2026-01-10",
         "categoria": "Primeiros Passos",
-        "template": "artigos/como_abrir_mei.html"
+        "template": "artigos/como_abrir_mei.html",
+        "calculadora": "calculadora-limite-proporcional-mei"
     },
     "obrigacoes-mei": {
         "titulo": "Obrigações do MEI em 2026: Lista Completa Para Não Pagar Multa",
@@ -48,11 +97,13 @@ ARTIGOS = {
         "template": "artigos/obrigacoes_mei.html"
     },
     "teto-faturamento": {
-        "titulo": "Teto do MEI 2026: Limite de R$ 81.000 e o Que Fazer se Ultrapassar",
-        "descricao": "Entenda o limite de R$ 81.000 do MEI em 2026, o que acontece se ultrapassar e como regularizar. Excesso até 20% tem regra especial.",
+        "titulo": "Limite do MEI 2026: R$ 81 Mil e o Que Acontece se Ultrapassar",
+        "descricao": "Limite do MEI em 2026, limite proporcional no ano de abertura e o que acontece se ultrapassar até 20% ou mais. Com exemplos calculados.",
         "data": "2026-01-14",
+        "atualizado": "2026-10-17",
         "categoria": "Regras",
-        "template": "artigos/teto_faturamento.html"
+        "template": "artigos/teto_faturamento.html",
+        "calculadora": "calculadora-limite-proporcional-mei"
     },
     "guia-impostos-mei": {
         "titulo": "Guia MEI 2026: Todos os Impostos que Você Paga (DAS, ICMS, ISS, INSS)",
@@ -66,7 +117,8 @@ ARTIGOS = {
         "descricao": "MEI ou ME? Compare limites, impostos, funcionários e obrigações. Descubra qual é melhor para o seu negócio em 2026.",
         "data": "2026-01-18",
         "categoria": "Comparativos",
-        "template": "artigos/mei_ou_me.html"
+        "template": "artigos/mei_ou_me.html",
+        "calculadora": "calculadora-mei-ou-me"
     },
 
     # ============ 10 ARTIGOS TEMÁTICOS ============
@@ -75,21 +127,24 @@ ARTIGOS = {
         "descricao": "Aprenda a gerar e pagar o DAS do MEI em 2026 pelo app, site ou banco. Valores, prazo (dia 20) e o que fazer se atrasar.",
         "data": "2026-02-01",
         "categoria": "Impostos",
-        "template": "artigos/como_pagar_das_mei.html"
+        "template": "artigos/como_pagar_das_mei.html",
+        "calculadora": "calculadora-das-atrasado"
     },
     "declaracao-anual-mei-dasn-simei": {
         "titulo": "Declaração Anual MEI (DASN-SIMEI) 2026: Como Fazer em 7 Passos",
         "descricao": "Passo a passo da Declaração Anual do MEI (DASN-SIMEI) 2026. Prazo até 31 de maio, multa de R$ 50 se não entregar. Guia completo.",
         "data": "2026-02-03",
         "categoria": "Obrigações",
-        "template": "artigos/declaracao_anual_mei_dasn_simei.html"
+        "template": "artigos/declaracao_anual_mei_dasn_simei.html",
+        "calculadora": "calculadora-imposto-de-renda-mei"
     },
     "mei-pode-ter-funcionario": {
         "titulo": "MEI Pode Ter Funcionário em 2026? Regras, Custos e Como Contratar",
         "descricao": "Sim, o MEI pode ter 1 funcionário. Veja regras CLT, custo real (~30% acima do salário) e como registrar no eSocial em 2026.",
         "data": "2026-02-05",
         "categoria": "Regras",
-        "template": "artigos/mei_pode_ter_funcionario.html"
+        "template": "artigos/mei_pode_ter_funcionario.html",
+        "calculadora": "calculadora-custo-funcionario-mei"
     },
     "como-emitir-nota-fiscal-mei": {
         "titulo": "Como Emitir Nota Fiscal MEI em 2026: Guia Simples (NFS-e, NF-e, NFC-e)",
@@ -97,13 +152,6 @@ ARTIGOS = {
         "data": "2026-02-07",
         "categoria": "Obrigações",
         "template": "artigos/como_emitir_nota_fiscal_mei.html"
-    },
-    "o-que-acontece-se-ultrapassar-limite-mei": {
-        "titulo": "MEI Ultrapassou o Limite de R$ 81.000? Veja o Que Acontece em 2026",
-        "descricao": "Descubra o que acontece se o MEI ultrapassar o limite de R$ 81.000 em 2026. Excesso até 20%, desenquadramento e como regularizar.",
-        "data": "2026-02-09",
-        "categoria": "Regras",
-        "template": "artigos/o_que_acontece_se_ultrapassar_limite_mei.html"
     },
     "mei-inss-beneficios-aposentadoria": {
         "titulo": "Aposentadoria MEI 2026: Como Funciona e Quais Benefícios Você Tem",
@@ -124,7 +172,8 @@ ARTIGOS = {
         "descricao": "Sim, é permitido ser MEI e CLT em 2026. Veja regras, como declarar as duas rendas e em quais casos pode dar problema.",
         "data": "2026-02-15",
         "categoria": "Regras",
-        "template": "artigos/mei_pode_ser_mei_e_clt.html"
+        "template": "artigos/mei_pode_ser_mei_e_clt.html",
+        "calculadora": "calculadora-imposto-de-renda-mei"
     },
     "melhores-atividades-para-mei": {
         "titulo": "30 Melhores Atividades Para Ser MEI em 2026 (Lista Atualizada e Lucrativa)",
@@ -138,14 +187,16 @@ ARTIGOS = {
         "descricao": "Não pagou o DAS do MEI? Veja multas, juros, perda de benefícios do INSS e como regularizar 100% online. Guia atualizado 2026.",
         "data": "2026-02-19",
         "categoria": "Impostos",
-        "template": "artigos/mei_nao_pagou_das_o_que_acontece.html"
+        "template": "artigos/mei_nao_pagou_das_o_que_acontece.html",
+        "calculadora": "calculadora-das-atrasado"
     },
 
     # ============ 5 ARTIGOS POR ATIVIDADE PROFISSIONAL ============
     "mei-eletricista": {
-        "titulo": "MEI Eletricista 2026: CNAE, DAS R$ 82,05, CBO e Como Se Formalizar",
-        "descricao": "Guia completo para eletricista ser MEI em 2026: CNAE 4321-5/00, DAS de R$ 82,05, CBO 7156-05 e dicas de precificação.",
+        "titulo": "MEI Eletricista 2026: CNAE, DAS R$ 86,05, CBO e Como Se Formalizar",
+        "descricao": "Guia para eletricista ser MEI em 2026: CNAE 4321-5/00, DAS de R$ 86,05, CBO 7156-05, exemplo de quanto sobra por mês e dicas de preço.",
         "data": "2026-03-01",
+        "atualizado": "2026-10-17",
         "categoria": "Atividades",
         "template": "artigos/mei_eletricista.html"
     },
@@ -153,6 +204,7 @@ ARTIGOS = {
         "titulo": "MEI Manicure 2026: CNAE, DAS R$ 86,05, CBO e Como Se Formalizar",
         "descricao": "Guia para manicure e pedicure ser MEI em 2026: CNAE 9602-5/01, DAS de R$ 86,05, CBO 5161-20 e dicas de precificação.",
         "data": "2026-03-03",
+        "atualizado": "2026-10-17",
         "categoria": "Atividades",
         "template": "artigos/mei_manicure.html"
     },
@@ -160,6 +212,7 @@ ARTIGOS = {
         "titulo": "MEI Confeiteiro 2026: CNAE, DAS R$ 82,05, CBO e Como Se Formalizar",
         "descricao": "Guia para confeiteiro ser MEI em 2026: CNAE 1091-1/02, DAS de R$ 82,05, CBO 8483-10 e dicas de precificação.",
         "data": "2026-03-05",
+        "atualizado": "2026-10-17",
         "categoria": "Atividades",
         "template": "artigos/mei_confeiteiro.html"
     },
@@ -168,12 +221,14 @@ ARTIGOS = {
         "descricao": "Designer Gráfico não pode ser MEI. Entenda o motivo, qual CNAE usar (7410-2/99) e como se formalizar como ME em 2026.",
         "data": "2026-03-07",
         "categoria": "Atividades",
-        "template": "artigos/mei_designer_grafico.html"
+        "template": "artigos/mei_designer_grafico.html",
+        "calculadora": "calculadora-mei-ou-me"
     },
     "mei-motorista-app": {
-        "titulo": "MEI Motorista de App 2026: CNAE Correto, DAS R$ 82,05 e Regras",
-        "descricao": "Motorista de app pode ser MEI em 2026. Veja o CNAE correto (4923-0/01), DAS de R$ 82,05, CBO 5191-10 e dicas de precificação.",
+        "titulo": "MEI Motorista de App 2026: CNAE Correto, DAS R$ 86,05 e Regras",
+        "descricao": "Motorista de app pode ser MEI em 2026. Veja o CNAE correto (4923-0/01), DAS de R$ 86,05, quanto sobra por mês e o cuidado com o limite.",
         "data": "2026-03-09",
+        "atualizado": "2026-10-17",
         "categoria": "Atividades",
         "template": "artigos/mei_motorista_app.html"
     },
@@ -228,49 +283,15 @@ def processar_simulador():
         try:
             faturamento_mensal = float(request.form['faturamento_mensal'])
             anexo = request.form['anexo']
-
-            # ============================================================
-            # VALORES OFICIAIS DO DAS 2026
-            # Base: salário mínimo R$ 1.621,00
-            # ============================================================
-            salario_minimo = 1621.00
-
-            # MEI geral: 5% do salário mínimo
-            inss_geral = round(salario_minimo * 0.05, 2)  # R$ 81,05
-
-            # MEI caminhoneiro: 12% do salário mínimo
-            inss_caminhoneiro = round(salario_minimo * 0.12, 2)  # R$ 194,52
-
-            icms = 1.00  # comércio/indústria
-            iss = 5.00   # serviços
-
-            if anexo == 'I':  # Comércio / Indústria
-                das_fixo = inss_geral + icms                # R$ 82,05
-                nome_anexo = "Comércio e Indústria"
-                descricao = "INSS + ICMS"
-            elif anexo == 'II':  # Serviços
-                das_fixo = inss_geral + iss                 # R$ 86,05
-                nome_anexo = "Serviços"
-                descricao = "INSS + ISS"
-            elif anexo == 'III':  # Comércio + Serviços
-                das_fixo = inss_geral + icms + iss          # R$ 87,05
-                nome_anexo = "Comércio e Serviços"
-                descricao = "INSS + ICMS + ISS"
-            elif anexo == 'CAMINHONEIRO':  # MEI Caminhoneiro
-                das_fixo = inss_caminhoneiro + icms         # R$ 195,52
-                nome_anexo = "MEI Caminhoneiro"
-                descricao = "INSS 12% + ICMS"
-            else:
-                das_fixo = inss_geral + icms
-                nome_anexo = "Comércio e Indústria"
-                descricao = "INSS + ICMS"
+            das = calc.composicao_das(anexo)
+            nome_anexo = das['nome']
 
             if faturamento_mensal < 0:
                 raise ValueError
 
             faturamento_anual = faturamento_mensal * 12
             # MEI Caminhoneiro tem limite próprio de R$ 251.600/ano
-            limite_anual = 251600.00 if anexo == 'CAMINHONEIRO' else 81000.00
+            limite_anual = calc.LIMITE_CAMINHONEIRO if das['caminhoneiro'] else calc.LIMITE_MEI
             percentual_limite = (faturamento_anual / limite_anual) * 100
 
             if faturamento_anual > limite_anual:
@@ -289,12 +310,11 @@ def processar_simulador():
                 'limite_anual': limite_anual,
                 'percentual_limite': round(percentual_limite, 1),
                 'nome_anexo': nome_anexo,
-                'descricao_anexo': descricao,
-                'das_pagar': round(das_fixo, 2),
-                'inss': inss_caminhoneiro if anexo == 'CAMINHONEIRO' else inss_geral,
-                'icms': icms if anexo in ('I', 'III', 'CAMINHONEIRO') else 0,
-                'iss': iss if anexo in ('II', 'III') else 0,
-                'caminhoneiro': anexo == 'CAMINHONEIRO',
+                'das_pagar': das['total'],
+                'inss': das['inss'],
+                'icms': das['icms'],
+                'iss': das['iss'],
+                'caminhoneiro': das['caminhoneiro'],
                 'alerta': alerta,
                 'classe_alerta': classe_alerta,
             }
@@ -305,6 +325,106 @@ def processar_simulador():
             flash('Não foi possível fazer o cálculo. Confira os valores e tente novamente.', 'error')
 
     return resultado
+
+
+# ============================================================
+# CALCULADORAS EXTRAS
+# ============================================================
+def numero(campo, padrao=None):
+    """Lê um campo numérico do formulário (aceita vírgula decimal)."""
+    valor = request.form.get(campo, '').strip()
+    if not valor:
+        if padrao is not None:
+            return padrao
+        raise ValueError('Preencha todos os campos obrigatórios.')
+    try:
+        return float(valor.replace('.', '').replace(',', '.') if ',' in valor else valor)
+    except ValueError:
+        raise ValueError('Por favor, insira valores numéricos válidos.')
+
+
+def data_form(campo):
+    valor = request.form.get(campo, '').strip()
+    try:
+        return date.fromisoformat(valor) if valor else date.today()
+    except ValueError:
+        raise ValueError('Informe uma data válida.')
+
+
+def calcular(funcao):
+    """Executa a calculadora em POST; mensagens de ValueError viram flash."""
+    if request.method != 'POST':
+        return None
+    try:
+        return funcao()
+    except ValueError as e:
+        flash(str(e), 'error')
+    except Exception:
+        app.logger.exception('Erro em calculadora')
+        flash('Não foi possível fazer o cálculo. Confira os valores e tente novamente.', 'error')
+    return None
+
+
+def render_calculadora(slug, resultado):
+    return render_template(f'calculadoras/{slug.replace("-", "_")}.html',
+                           calc_meta=CALCULADORAS_POR_SLUG[slug], resultado=resultado,
+                           hoje=date.today())
+
+
+@app.route('/calculadoras')
+def lista_calculadoras():
+    return render_template('calculadoras/lista.html')
+
+
+@app.route('/calculadora-das-atrasado', methods=['GET', 'POST'])
+def calculadora_das_atrasado():
+    resultado = calcular(lambda: calc.das_atrasado(
+        request.form.get('competencia', ''),
+        request.form.get('anexo', ''),
+        data_form('data_pagamento'),
+        numero('selic', 1.0),
+    ))
+    return render_calculadora('calculadora-das-atrasado', resultado)
+
+
+@app.route('/calculadora-limite-proporcional-mei', methods=['GET', 'POST'])
+def calculadora_limite_proporcional():
+    resultado = calcular(lambda: calc.limite_proporcional(
+        request.form.get('abertura', ''),
+        date.today().year,
+        numero('faturamento'),
+        request.form.get('caminhoneiro') == 'sim',
+    ))
+    return render_calculadora('calculadora-limite-proporcional-mei', resultado)
+
+
+@app.route('/calculadora-mei-ou-me', methods=['GET', 'POST'])
+def calculadora_mei_ou_me():
+    resultado = calcular(lambda: calc.mei_ou_me(
+        numero('faturamento_mensal'),
+        request.form.get('atividade', ''),
+        numero('contador', 0.0),
+    ))
+    return render_calculadora('calculadora-mei-ou-me', resultado)
+
+
+@app.route('/calculadora-imposto-de-renda-mei', methods=['GET', 'POST'])
+def calculadora_imposto_renda():
+    resultado = calcular(lambda: calc.imposto_renda_mei(
+        numero('receita'),
+        numero('despesas', 0.0),
+        request.form.get('atividade', ''),
+    ))
+    return render_calculadora('calculadora-imposto-de-renda-mei', resultado)
+
+
+@app.route('/calculadora-custo-funcionario-mei', methods=['GET', 'POST'])
+def calculadora_custo_funcionario():
+    resultado = calcular(lambda: calc.custo_funcionario(
+        numero('salario'),
+        numero('vale_transporte', 0.0),
+    ))
+    return render_calculadora('calculadora-custo-funcionario-mei', resultado)
 
 
 # ============================================================
@@ -366,10 +486,14 @@ def lista_artigos():
 
 @app.route('/artigos/<slug>')
 def artigo(slug):
+    if slug in REDIRECIONAMENTOS:
+        return redirect(url_for('artigo', slug=REDIRECIONAMENTOS[slug]), code=301)
     artigo_data = ARTIGOS.get(slug)
     if not artigo_data:
         return render_template('404.html'), 404
-    return render_template(artigo_data['template'], meta=artigo_data, slug=slug)
+    calc_relacionada = CALCULADORAS_POR_SLUG.get(artigo_data.get('calculadora'))
+    return render_template(artigo_data['template'], meta=artigo_data, slug=slug,
+                           calc_relacionada=calc_relacionada)
 
 
 # ============================================================
@@ -393,18 +517,21 @@ Sitemap: https://www.calculadora-mei.net.br/sitemap.xml
 
 @app.route('/sitemap.xml')
 def sitemap():
-    ultima_data = max(a['data'] for a in ARTIGOS.values())
+    ultima_data = max(a.get('atualizado', a['data']) for a in ARTIGOS.values())
     urls = [
         ('/', '1.0', 'weekly', ultima_data),
         ('/simulador-mei', '0.9', 'monthly', None),
+        ('/calculadoras', '0.9', 'monthly', None),
         ('/artigos', '0.8', 'weekly', ultima_data),
         ('/sobre', '0.5', 'monthly', None),
         ('/contato', '0.5', 'monthly', None),
         ('/politica-de-privacidade', '0.3', 'yearly', None),
         ('/termos-de-uso', '0.3', 'yearly', None),
     ]
+    for c in CALCULADORAS:
+        urls.append((f'/{c["slug"]}', '0.9', 'monthly', None))
     for slug, a in ARTIGOS.items():
-        urls.append((f'/artigos/{slug}', '0.7', 'monthly', a['data']))
+        urls.append((f'/artigos/{slug}', '0.7', 'monthly', a.get('atualizado', a['data'])))
 
     xml = ['<?xml version="1.0" encoding="UTF-8"?>']
     xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')

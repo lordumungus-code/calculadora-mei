@@ -30,6 +30,19 @@
     {% include "_calculadora.html" %}
 </section>
 
+<section class="outras-calculadoras">
+    <h2>Outras calculadoras para o MEI</h2>
+    <div class="cards">
+        {% for c in calculadoras %}
+        <a class="card card-link" href="/{{ c.slug }}">
+            <span class="icone" aria-hidden="true">{{ c.icone }}</span>
+            <h3>{{ c.nome }}</h3>
+            <p>{{ c.descricao }}</p>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
 <section class="bloco-info">
     <h2>Como calcular o imposto do MEI</h2>
     <p>O imposto do MEI é pago em uma guia única mensal, o <strong>DAS (Documento de Arrecadação do Simples Nacional)</strong>. O valor é <strong>fixo</strong> e não depende de quanto você faturou no mês. Em 2026 ele é formado por:</p>

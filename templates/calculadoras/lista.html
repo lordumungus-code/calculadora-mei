@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Calculadoras MEI 2026: DAS, Atraso, Limite, IR e Funcionário{% endblock %}
+{% block meta_description %}Calculadoras grátis para o MEI: DAS mensal, DAS atrasado com multa e juros, limite proporcional, MEI ou ME, Imposto de Renda e custo de funcionário.{% endblock %}
+
+{% block content %}
+<section class="simulador">
+    <div class="simulador-topo">
+        <span class="badge-gratuito">Grátis e sem cadastro · Regras 2026</span>
+        <h1>Calculadoras para o MEI</h1>
+        <p>Ferramentas para calcular impostos, multas e custos do Microempreendedor Individual, com as regras de 2026.</p>
+    </div>
+
+    <div class="cards">
+        <a class="card card-link" href="/">
+            <span class="icone" aria-hidden="true">🧮</span>
+            <h3>Calculadora de DAS</h3>
+            <p>Quanto você paga de DAS por mês e quanto do limite de faturamento já usou.</p>
+        </a>
+        {% for c in calculadoras %}
+        <a class="card card-link" href="/{{ c.slug }}">
+            <span class="icone" aria-hidden="true">{{ c.icone }}</span>
+            <h3>{{ c.nome }}</h3>
+            <p>{{ c.descricao }}</p>
+        </a>
+        {% endfor %}
+    </div>
+
+    <section class="bloco-info">
+        <h2>Qual calculadora usar?</h2>
+        <ul>
+            <li><strong>Quer saber o valor da guia do mês?</strong> Use a <a href="/">calculadora de DAS</a>.</li>
+            <li><strong>Perdeu o vencimento do dia 20?</strong> Use a <a href="/calculadora-das-atrasado">calculadora de DAS atrasado</a>.</li>
+            <li><strong>Abriu o MEI neste ano?</strong> Confira seu <a href="/calculadora-limite-proporcional-mei">limite proporcional</a>, que é menor que R$ 81 mil.</li>
+            <li><strong>Está perto do limite?</strong> Veja quanto pagaria como <a href="/calculadora-mei-ou-me">Microempresa</a>.</li>
+            <li><strong>Época de declarar o IR?</strong> Calcule a <a href="/calculadora-imposto-de-renda-mei">parcela isenta e tributável</a> do seu lucro.</li>
+            <li><strong>Pensando em contratar?</strong> Calcule o <a href="/calculadora-custo-funcionario-mei">custo real de um funcionário</a>.</li>
+        </ul>
+    </section>
+</section>
+{% endblock %}

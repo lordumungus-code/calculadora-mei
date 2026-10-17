@@ -1,0 +1,99 @@
+{% extends "calculadoras/_base.html" %}
+
+{% block h1 %}Calculadora de Imposto de Renda do MEI{% endblock %}
+{% block intro %}Descubra quanto do seu lucro como MEI é isento e quanto precisa ser declarado como rendimento tributável no IR.{% endblock %}
+
+{% block formulario %}
+{% set atividade_atual = request.form.get('atividade', 'servicos') %}
+<div class="calc-campos">
+    <div>
+        <label for="receita">Receita bruta no ano</label>
+        <div class="campo-moeda">
+            <span class="campo-moeda-prefixo">R$</span>
+            <input type="number" id="receita" name="receita" step="0.01" min="0" required
+                   inputmode="decimal" placeholder="Ex.: 60000"
+                   value="{{ request.form.get('receita', '') }}">
+        </div>
+        <p class="campo-ajuda">O mesmo valor informado na DASN-SIMEI.</p>
+    </div>
+    <div>
+        <label for="despesas">Despesas do negócio no ano</label>
+        <div class="campo-moeda">
+            <span class="campo-moeda-prefixo">R$</span>
+            <input type="number" id="despesas" name="despesas" step="0.01" min="0"
+                   inputmode="decimal" placeholder="Ex.: 15000"
+                   value="{{ request.form.get('despesas', '') }}">
+        </div>
+        <p class="campo-ajuda">Compras, aluguel, materiais. Só com notas e livro-caixa.</p>
+    </div>
+</div>
+
+<div class="passo"><span class="passo-titulo" id="titulo-atividade">Atividade</span></div>
+<div class="opcoes-atividade" role="radiogroup" aria-labelledby="titulo-atividade">
+    {% for valor, nome, detalhe in [('comercio', 'Comércio / Indústria', 'Também transporte de cargas · 8% isento'), ('passageiros', 'Transporte de passageiros', '16% isento'), ('servicos', 'Serviços', '32% isento')] %}
+    <label class="opcao-atividade">
+        <input type="radio" name="atividade" value="{{ valor }}" {% if atividade_atual == valor %}checked{% endif %} required>
+        <span class="opcao-conteudo"><span class="opcao-nome">{{ nome }}</span><span class="opcao-detalhe">{{ detalhe }}</span></span>
+    </label>
+    {% endfor %}
+</div>
+
+<button type="submit">Calcular</button>
+{% endblock %}
+
+{% block resultado %}
+<div class="resultado-destaque">
+    <span class="resultado-rotulo">Rendimento tributável para declarar</span>
+    <span class="resultado-valor">R$ {{ resultado.tributavel|brl }}</span>
+    <span class="resultado-sub">{{ resultado.atividade }} · {{ resultado.percentual }}% da receita é isento</span>
+</div>
+<div class="resultado-corpo">
+    {% if resultado.lucro <= 0 %}
+    <div class="alerta alerta-sucesso">Sem lucro no ano, não há rendimento do MEI a declarar como tributável.</div>
+    {% elif resultado.tributavel == 0 %}
+    <div class="alerta alerta-sucesso">Todo o seu lucro está dentro da parcela isenta. Ele é declarado como <strong>rendimento isento</strong>.</div>
+    {% else %}
+    <div class="alerta alerta-warning">R$ {{ resultado.tributavel|brl }} do lucro deve ser declarado como <strong>rendimento tributável</strong> recebido de pessoa jurídica (o seu CNPJ). Some esse valor aos seus outros rendimentos para ver se você é obrigado a declarar o IR.</div>
+    {% endif %}
+
+    <h2>Como o lucro foi dividido</h2>
+    <div class="composicao">
+        <div class="composicao-item"><span>Lucro</span><strong>R$ {{ resultado.lucro|brl }}</strong><small>Receita − despesas</small></div>
+        <div class="composicao-item"><span>Parcela isenta</span><strong>R$ {{ resultado.isento|brl }}</strong><small>Até {{ resultado.percentual }}% da receita (R$ {{ resultado.limite_isento|brl }})</small></div>
+        <div class="composicao-item"><span>Parcela tributável</span><strong>R$ {{ resultado.tributavel|brl }}</strong><small>Lucro acima da parcela isenta</small></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block explicacao %}
+<h2>MEI paga Imposto de Renda?</h2>
+<p>O <strong>CNPJ do MEI</strong> não paga Imposto de Renda além do DAS. Mas o dinheiro que sobra no negócio e vai para você (o lucro) é renda da <strong>pessoa física</strong>. Uma parte desse lucro é isenta, e a parte que passar do limite isento entra na sua declaração de IR como rendimento tributável.</p>
+
+<h2>Como calcular a parcela isenta</h2>
+<ol>
+    <li><strong>Calcule o lucro:</strong> receita bruta do ano menos as despesas do negócio (comprovadas no livro-caixa).</li>
+    <li><strong>Calcule o limite isento:</strong> aplique o percentual da sua atividade sobre a receita bruta: 8% para comércio, indústria e transporte de cargas, 16% para transporte de passageiros e 32% para serviços.</li>
+    <li><strong>Compare:</strong> a parte do lucro até o limite isento é rendimento isento. O que passar disso é rendimento tributável.</li>
+</ol>
+
+<h2>Exemplo prático</h2>
+<p>Carlos é MEI de serviços. Em 2025 faturou <strong>R$ 60.000</strong> e teve <strong>R$ 15.000</strong> de despesas.</p>
+<table>
+    <thead><tr><th>Etapa</th><th>Cálculo</th><th>Valor</th></tr></thead>
+    <tbody>
+        <tr><td>Lucro</td><td>R$ 60.000 − R$ 15.000</td><td>R$ 45.000</td></tr>
+        <tr><td>Limite isento</td><td>32% × R$ 60.000</td><td>R$ 19.200</td></tr>
+        <tr><td>Rendimento isento</td><td></td><td>R$ 19.200</td></tr>
+        <tr><td><strong>Rendimento tributável</strong></td><td>R$ 45.000 − R$ 19.200</td><td><strong>R$ 25.800</strong></td></tr>
+    </tbody>
+</table>
+<p>Carlos declara R$ 19.200 como isento e R$ 25.800 como tributável. Se esse valor, somado a outros rendimentos (salário CLT, aluguéis), passar do limite de obrigatoriedade do ano, ele é obrigado a entregar a declaração.</p>
+
+<h2>Perguntas frequentes</h2>
+<h3>Sou obrigado a ter livro-caixa?</h3>
+<p>Para deduzir despesas e declarar lucro acima do percentual isento, sim. Sem livro-caixa, só é possível considerar como isento o percentual sobre a receita, e o restante fica sem comprovação.</p>
+<h3>A declaração anual do MEI substitui o IR?</h3>
+<p>Não. A <a href="/artigos/declaracao-anual-mei-dasn-simei">DASN-SIMEI</a> é a declaração do CNPJ. O Imposto de Renda da pessoa física é outra declaração, feita no programa da Receita.</p>
+<h3>Posso ser MEI e CLT?</h3>
+<p>Sim. Nesse caso o salário e o lucro tributável do MEI são somados na declaração. Veja <a href="/artigos/mei-pode-ser-mei-e-clt">como funciona ser MEI e CLT</a>.</p>
+{% endblock %}

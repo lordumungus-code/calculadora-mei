@@ -1,0 +1,115 @@
+{% extends "calculadoras/_base.html" %}
+
+{% block h1 %}Calculadora MEI ou ME{% endblock %}
+{% block intro %}Compare quanto você pagaria de imposto como MEI e como Microempresa no Simples Nacional.{% endblock %}
+
+{% block formulario %}
+{% set atividade_atual = request.form.get('atividade', 'servicos') %}
+<label for="faturamento_mensal">Faturamento mensal médio</label>
+<div class="campo-moeda">
+    <span class="campo-moeda-prefixo">R$</span>
+    <input type="number" id="faturamento_mensal" name="faturamento_mensal" step="0.01" min="0" required
+           inputmode="decimal" placeholder="Ex.: 8000"
+           value="{{ request.form.get('faturamento_mensal', '') }}">
+</div>
+
+<div class="passo"><span class="passo-titulo" id="titulo-atividade">Atividade</span></div>
+<div class="opcoes-atividade" role="radiogroup" aria-labelledby="titulo-atividade">
+    {% for valor, nome, detalhe in [('comercio', 'Comércio / Indústria', 'Anexo I do Simples'), ('servicos', 'Serviços', 'Anexo III do Simples')] %}
+    <label class="opcao-atividade">
+        <input type="radio" name="atividade" value="{{ valor }}" {% if atividade_atual == valor %}checked{% endif %} required>
+        <span class="opcao-conteudo"><span class="opcao-nome">{{ nome }}</span><span class="opcao-detalhe">{{ detalhe }}</span></span>
+    </label>
+    {% endfor %}
+</div>
+
+<label for="contador">Custo mensal do contador (ME)</label>
+<div class="campo-moeda">
+    <span class="campo-moeda-prefixo">R$</span>
+    <input type="number" id="contador" name="contador" step="0.01" min="0" inputmode="decimal"
+           value="{{ request.form.get('contador', '300') }}">
+</div>
+<p class="campo-ajuda">A Microempresa precisa de contador. Os valores costumam ir de R$ 200 a R$ 600 por mês.</p>
+
+<button type="submit">Comparar MEI e ME</button>
+{% endblock %}
+
+{% block resultado %}
+<div class="resultado-destaque">
+    {% if resultado.pode_mei %}
+    <span class="resultado-rotulo">Como MEI você economiza por ano</span>
+    <span class="resultado-valor">R$ {{ resultado.economia_mei|brl }}</span>
+    <span class="resultado-sub">em relação a uma ME no Simples Nacional</span>
+    {% else %}
+    <span class="resultado-rotulo">Imposto + contador como ME</span>
+    <span class="resultado-valor">R$ {{ resultado.total_me_anual|brl }}<small>/ano</small></span>
+    <span class="resultado-sub">Com R$ {{ resultado.faturamento_anual|brl }} por ano, não é possível ser MEI</span>
+    {% endif %}
+</div>
+<div class="resultado-corpo">
+    {% if not resultado.pode_mei %}
+    <div class="alerta alerta-warning">O faturamento anual de R$ {{ resultado.faturamento_anual|brl }} passa o limite de R$ 81.000 do MEI. Para esse faturamento, o caminho é a Microempresa.</div>
+    {% endif %}
+
+    <div class="comparativo">
+        <div class="comparativo-col {% if resultado.pode_mei %}comparativo-melhor{% endif %}">
+            <h3>MEI</h3>
+            {% if resultado.pode_mei %}
+            <p class="comparativo-valor">R$ {{ resultado.das_mei_anual|brl }}<small>/ano</small></p>
+            <ul>
+                <li>DAS fixo de R$ {{ resultado.das_mei_mensal|brl }} por mês</li>
+                <li>Não precisa de contador</li>
+                <li>Limite de R$ 81.000 por ano</li>
+            </ul>
+            {% else %}
+            <p class="comparativo-valor">Não se aplica</p>
+            <ul><li>Faturamento acima do limite do MEI</li></ul>
+            {% endif %}
+        </div>
+        <div class="comparativo-col {% if not resultado.pode_mei %}comparativo-melhor{% endif %}">
+            <h3>ME (Simples Nacional)</h3>
+            <p class="comparativo-valor">R$ {{ resultado.total_me_anual|brl }}<small>/ano</small></p>
+            <ul>
+                <li>Imposto de R$ {{ resultado.imposto_me_mensal|brl }} por mês ({{ resultado.aliquota_efetiva|string|replace('.', ',') }}%)</li>
+                <li>Contador: R$ {{ resultado.contador_anual|brl }} por ano</li>
+                <li>{{ resultado.atividade }}</li>
+            </ul>
+        </div>
+    </div>
+    <p class="campo-ajuda">O cálculo da ME não inclui o INSS sobre o pró-labore do sócio nem taxas de alvará, que variam de caso a caso.</p>
+</div>
+{% endblock %}
+
+{% block explicacao %}
+<h2>Como a calculadora compara MEI e ME</h2>
+<p>O <strong>MEI</strong> paga um valor fixo por mês (DAS), que não depende do faturamento: R$ 82,05 no comércio e R$ 86,05 em serviços em 2026. Já a <strong>Microempresa (ME)</strong> no Simples Nacional paga um percentual do faturamento, que aumenta conforme a receita dos últimos 12 meses.</p>
+
+<h2>Alíquotas do Simples Nacional</h2>
+<table>
+    <thead><tr><th>Receita em 12 meses</th><th>Anexo I (comércio)</th><th>Anexo III (serviços)</th></tr></thead>
+    <tbody>
+        <tr><td>Até R$ 180 mil</td><td>4%</td><td>6%</td></tr>
+        <tr><td>De R$ 180 mil a R$ 360 mil</td><td>7,3% (dedução R$ 5.940)</td><td>11,2% (dedução R$ 9.360)</td></tr>
+        <tr><td>De R$ 360 mil a R$ 720 mil</td><td>9,5% (dedução R$ 13.860)</td><td>13,5% (dedução R$ 17.640)</td></tr>
+        <tr><td>De R$ 720 mil a R$ 1,8 milhão</td><td>10,7% (dedução R$ 22.500)</td><td>16% (dedução R$ 35.640)</td></tr>
+    </tbody>
+</table>
+<p>A alíquota efetiva é calculada assim: <strong>(receita em 12 meses × alíquota − dedução) ÷ receita em 12 meses</strong>.</p>
+
+<h2>Exemplo prático</h2>
+<p>Um prestador de serviços que fatura <strong>R$ 6.000 por mês</strong> (R$ 72 mil por ano) paga R$ 1.032,60 por ano como MEI. Como ME, pagaria 6% de imposto (R$ 4.320) mais cerca de R$ 3.600 de contador, um total de <strong>R$ 7.920 por ano</strong>. Enquanto estiver dentro do limite, o MEI sai quase R$ 6.900 mais barato.</p>
+
+<h2>Quando vale migrar para ME</h2>
+<ul>
+    <li>Quando o faturamento passa ou vai passar de R$ 81.000 por ano.</li>
+    <li>Quando você precisa de sócio ou de mais de um funcionário.</li>
+    <li>Quando sua atividade não é permitida para MEI.</li>
+</ul>
+<p>Leia o comparativo completo em <a href="/artigos/mei-ou-me">MEI ou ME: qual escolher</a>.</p>
+
+<h2>Perguntas frequentes</h2>
+<h3>Todo serviço entra no Anexo III?</h3>
+<p>Não. Algumas atividades intelectuais e técnicas ficam no Anexo V, com alíquotas maiores, a menos que a folha de pagamento chegue a 28% da receita (o chamado Fator R). Confirme o anexo da sua atividade com um contador.</p>
+<h3>A ME paga INSS do dono?</h3>
+<p>Sim. O sócio que retira pró-labore paga 11% de INSS sobre esse valor. Esse custo não entra na calculadora porque depende do valor que você escolher retirar.</p>
+{% endblock %}

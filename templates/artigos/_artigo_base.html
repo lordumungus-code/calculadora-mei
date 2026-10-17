@@ -33,7 +33,7 @@
     <header>
         <h1>{{ meta.titulo }}</h1>
         <p class="meta-info">
-            Publicado em {{ meta.data | data_br }} · Categoria: {{ meta.categoria }}
+            Publicado em {{ meta.data | data_br }}{% if meta.atualizado %} · Atualizado em {{ meta.atualizado | data_br }}{% endif %} · Categoria: {{ meta.categoria }}
         </p>
     </header>
 
@@ -44,9 +44,16 @@
 
     <!-- CTA -->
     <div class="cta-calculadora">
+        {% if calc_relacionada %}
+        <h3>{{ calc_relacionada.icone }} Calculadora: {{ calc_relacionada.nome }}</h3>
+        <p>{{ calc_relacionada.descricao }}</p>
+        <a href="/{{ calc_relacionada.slug }}" class="botao-cta">Abrir calculadora →</a>
+        {% else %}
         <h3>Calcule seu DAS agora</h3>
         <p>Use nossa calculadora gratuita e veja quanto você paga por mês.</p>
-        <a href="/simulador-mei" class="botao-cta">Abrir Calculadora MEI →</a>
+        <a href="/" class="botao-cta">Abrir Calculadora MEI →</a>
+        {% endif %}
+        <p class="cta-mais"><a href="/calculadoras">Ver todas as calculadoras</a></p>
     </div>
 
 

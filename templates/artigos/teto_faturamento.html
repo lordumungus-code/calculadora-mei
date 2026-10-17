@@ -1,65 +1,100 @@
 {% extends "artigos/_artigo_base.html" %}
 
 {% block artigo_conteudo %}
-<p>O limite de faturamento é uma das regras mais importantes do MEI. Ultrapassar esse valor sem os cuidados corretos pode gerar desenquadramento retroativo, multas e mudança obrigatória para ME. Entenda como funciona em 2026.</p>
+<p>O limite de faturamento é a regra mais importante do MEI. Ultrapassar esse valor sem planejamento pode gerar desenquadramento retroativo, impostos de Microempresa sobre o ano inteiro, multa e juros. Neste guia você vai entender qual é o limite em 2026, como ele muda no ano de abertura e o que acontece em cada faixa de excesso, com exemplos calculados.</p>
 
 <h2>Qual o limite do MEI em 2026</h2>
-<p>O limite anual é de <strong>R$ 81.000</strong>, o que corresponde a uma média de <strong>R$ 6.750 por mês</strong>. Esse valor considera o faturamento bruto, ou seja, tudo que entrou como receita antes de descontar despesas. A regra está prevista na <a href="https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm" target="_blank" rel="noopener">Lei Complementar 123/2006</a>.</p>
+<p>O limite anual é de <strong>R$ 81.000</strong>, uma média de <strong>R$ 6.750 por mês</strong>. Para o <strong>MEI Caminhoneiro</strong>, o limite é de <strong>R$ 251.600</strong> por ano. O valor considera o faturamento bruto, ou seja, tudo o que entrou como receita antes de descontar despesas, conforme a <a href="https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm" target="_blank" rel="noopener">Lei Complementar 123/2006</a>.</p>
+<p>O limite é <strong>anual</strong>. Faturar acima de R$ 6.750 em um mês não é problema, desde que o total do ano fique dentro do teto.</p>
+
+<h2>Limite proporcional no ano de abertura</h2>
+<p>Quem abriu o MEI durante o ano <strong>não tem limite de R$ 81.000</strong> naquele primeiro ano. O limite é de R$ 6.750 multiplicado pelos meses de atividade, contando o mês de abertura inteiro.</p>
+<table>
+    <thead><tr><th>Mês de abertura</th><th>Meses de atividade</th><th>Limite no 1º ano</th><th>Com 20% de tolerância</th></tr></thead>
+    <tbody>
+        <tr><td>Janeiro</td><td>12</td><td>R$ 81.000</td><td>R$ 97.200</td></tr>
+        <tr><td>Abril</td><td>9</td><td>R$ 60.750</td><td>R$ 72.900</td></tr>
+        <tr><td>Julho</td><td>6</td><td>R$ 40.500</td><td>R$ 48.600</td></tr>
+        <tr><td>Outubro</td><td>3</td><td>R$ 20.250</td><td>R$ 24.300</td></tr>
+    </tbody>
+</table>
+<p>Calcule o seu na <a href="/calculadora-limite-proporcional-mei">calculadora de limite proporcional</a>.</p>
 
 <h2>O que conta como faturamento</h2>
 <ul>
-    <li>Vendas de produtos</li>
-    <li>Serviços prestados</li>
-    <li>Notas fiscais emitidas (mesmo canceladas, se houve recebimento)</li>
-    <li>Valores recebidos por PIX, cartão ou dinheiro</li>
+    <li>Vendas de produtos e serviços prestados, com ou sem nota fiscal</li>
+    <li>Valores recebidos por Pix, cartão, boleto ou dinheiro</li>
+    <li>Materiais cobrados do cliente junto com o serviço (por exemplo, o fio e as tomadas que o eletricista inclui no orçamento)</li>
+    <li>Vendas para o exterior</li>
 </ul>
 
 <h2>O que não conta como faturamento</h2>
 <ul>
-    <li>Empréstimos bancários</li>
+    <li>Empréstimos e financiamentos</li>
     <li>Transferências entre contas próprias</li>
     <li>Venda de bens pessoais (carro, casa)</li>
+    <li>Rendimentos de investimentos</li>
+    <li>Notas fiscais canceladas corretamente, sem recebimento</li>
 </ul>
 
-<h2>E se eu ultrapassar o limite?</h2>
-<p>Existem duas situações, conforme a <a href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/sou-mei" target="_blank" rel="noopener">Resolução CGSN 140/2018</a>:</p>
+<h2>O que acontece se ultrapassar o limite</h2>
+<p>As consequências dependem do tamanho do excesso, conforme a <a href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/sou-mei" target="_blank" rel="noopener">Resolução CGSN 140/2018</a>.</p>
 
-<h3>Excesso de até 20%</h3>
-<p>Se você faturou entre R$ 81.000 e R$ 97.200 no ano, ainda pode continuar como MEI até dezembro. Deve pagar um DAS complementar sobre o excesso e migrar para ME no ano seguinte.</p>
+<h3>Excesso de até 20% (até R$ 97.200)</h3>
+<ul>
+    <li>Você <strong>continua MEI até 31 de dezembro</strong>.</li>
+    <li>Paga um <strong>DAS complementar</strong> sobre o valor que passou do limite, com as alíquotas do Simples Nacional (4% no comércio e 6% em serviços, na primeira faixa). Ele é gerado junto com a declaração anual (DASN-SIMEI).</li>
+    <li>Passa a ser <strong>Microempresa a partir de 1º de janeiro</strong> do ano seguinte, com contador e imposto sobre o faturamento.</li>
+</ul>
 
-<h3>Excesso acima de 20%</h3>
-<p>Se passou de R$ 97.200, o desenquadramento é retroativo a janeiro do ano corrente. Você passa a ser ME desde o início do ano e deve recolher impostos como ME, com alíquotas do Simples Nacional.</p>
+<h3>Excesso acima de 20% (acima de R$ 97.200)</h3>
+<ul>
+    <li>O desenquadramento é <strong>retroativo a 1º de janeiro</strong> do ano em que o limite foi ultrapassado. No ano de abertura, é retroativo à data de abertura.</li>
+    <li>Todos os impostos do período são recalculados como Microempresa, com <strong>multa e juros</strong> sobre a diferença.</li>
+    <li>Mesmo que o limite tenha sido ultrapassado só em dezembro, o recálculo vale desde o início do ano.</li>
+</ul>
 
-<p>Veja o passo a passo completo em <a href="/artigos/o-que-acontece-se-ultrapassar-limite-mei">o que acontece se o MEI ultrapassar o limite</a>.</p>
+<h2>Exemplos calculados</h2>
+<table>
+    <thead><tr><th>Situação</th><th>Faturamento</th><th>Excesso</th><th>Consequência</th></tr></thead>
+    <tbody>
+        <tr><td>Dentro do limite</td><td>R$ 78.000</td><td>—</td><td>Nada muda. Ainda cabem R$ 3.000 no ano.</td></tr>
+        <tr><td>Excesso de 11%</td><td>R$ 90.000</td><td>R$ 9.000</td><td>DAS complementar de R$ 360 a R$ 540 e ME em janeiro.</td></tr>
+        <tr><td>Excesso de 23%</td><td>R$ 100.000</td><td>R$ 19.000</td><td>Desenquadramento retroativo a janeiro, impostos de ME sobre o ano todo.</td></tr>
+        <tr><td>1º ano, abriu em julho</td><td>R$ 45.000</td><td>R$ 4.500</td><td>Excesso de 11% sobre o limite de R$ 40.500. DAS complementar e ME em janeiro.</td></tr>
+    </tbody>
+</table>
+<p>Observe o último caso: R$ 45.000 parece pouco perto de R$ 81.000, mas quem abriu em julho tem limite de apenas R$ 40.500. É um dos erros mais comuns de quem está começando.</p>
+
+<h2>Como regularizar</h2>
+<ol>
+    <li>Faça a comunicação de desenquadramento do SIMEI no <a href="https://www8.receita.fazenda.gov.br/SimplesNacional/" target="_blank" rel="noopener">Portal do Simples Nacional</a>. O prazo é o último dia útil do mês seguinte ao excesso, quando ele passa de 20%, ou o último dia útil de janeiro do ano seguinte, quando o excesso é de até 20%.</li>
+    <li>Se o excesso for de até 20%, informe o faturamento real na <a href="/artigos/declaracao-anual-mei-dasn-simei">DASN-SIMEI</a> e pague o DAS complementar.</li>
+    <li>Se o excesso for maior, procure um contador para recalcular os impostos como Microempresa. Os valores podem ser parcelados no Portal do Simples Nacional.</li>
+    <li>Prepare-se para a ME: contador, emissão de notas e alíquota sobre o faturamento. Veja <a href="/artigos/mei-ou-me">MEI ou ME</a>.</li>
+</ol>
+<p>Quem não comunica o desenquadramento pode ser desenquadrado de ofício pela Receita, com multa e juros.</p>
 
 <h2>Como se planejar para não ultrapassar</h2>
 <ul>
-    <li>Acompanhe o faturamento mensalmente</li>
-    <li>Use a <a href="/simulador-mei">calculadora MEI</a> para simular o ano</li>
-    <li>Considere migrar para ME se estiver próximo do limite — veja <a href="/artigos/mei-ou-me">MEI ou ME?</a></li>
-    <li>Consulte um contador em caso de dúvidas — orientação do <a href="https://sebrae.com.br/sites/PortalSebrae" target="_blank" rel="noopener">Sebrae</a></li>
+    <li>Anote o faturamento todo mês no relatório mensal de receitas e compare com a média de R$ 6.750.</li>
+    <li>Em setembro ou outubro, projete o fim do ano na <a href="/">calculadora de DAS e limite</a>.</li>
+    <li>Se o crescimento for constante, a migração planejada para ME costuma sair mais barata do que um desenquadramento retroativo. Compare na <a href="/calculadora-mei-ou-me">calculadora MEI ou ME</a>.</li>
 </ul>
 
 <h2>Perguntas frequentes</h2>
 
-<h3>Posso ultrapassar um mês e voltar?</h3>
-<p>O limite é anual. Se em um mês você faturar acima da média, isso não é problema — desde que o total anual fique abaixo de R$ 81.000.</p>
+<h3>O MEI é cancelado se ultrapassar o limite?</h3>
+<p>Não. O CNPJ continua existindo, mas deixa de ser MEI e passa a ser Microempresa.</p>
 
-<h3>Meu MEI pode ser cancelado por ultrapassar?</h3>
-<p>Não é cancelado automaticamente, mas é desenquadrado e passa a ser ME.</p>
+<h3>Posso voltar a ser MEI depois?</h3>
+<p>Sim, se voltar a cumprir os requisitos. A opção pelo SIMEI é feita em janeiro, no Portal do Simples Nacional.</p>
 
 <h3>E se eu faturar R$ 0 no ano?</h3>
-<p>Você continua MEI regular, desde que pague o DAS mensal e entregue a <a href="/artigos/declaracao-anual-mei-dasn-simei">DASN-SIMEI</a>.</p>
+<p>Você continua MEI regular, desde que pague o DAS mensal e entregue a DASN-SIMEI informando faturamento zero.</p>
 
-<h3>Emissão de nota cancelada conta no limite?</h3>
-<p>Não, se o cancelamento for formalizado corretamente dentro do prazo legal da SEFAZ.</p>
-
-<h3>O limite pode ser alterado pelo governo?</h3>
-<p>Pode, mas depende de aprovação de projeto de lei no <a href="https://www.congressonacional.leg.br/" target="_blank" rel="noopener">Congresso Nacional</a>. Até o momento, o limite segue em R$ 81.000.</p>
-
-<h2>Resumo</h2>
-<p>O limite do MEI é R$ 81.000 por ano. Ultrapassar até 20% ainda permite continuar como MEI, mas com obrigações adicionais. Acima disso, o desenquadramento é retroativo e a migração para ME se torna obrigatória. Acompanhe seu faturamento e planeje-se com antecedência.</p>
-<p>Use a <a href="/simulador-mei">calculadora MEI</a> para simular seu cenário anual.</p>
+<h3>O limite pode aumentar?</h3>
+<p>Há projetos de lei no Congresso para aumentar o teto, mas até a publicação deste guia o limite segue em R$ 81.000 por ano.</p>
 
 <h2>Fontes e referências</h2>
 <ul>
@@ -67,6 +102,5 @@
     <li><a href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/sou-mei" target="_blank" rel="noopener">Resolução CGSN 140/2018</a> — Regulamentação do Simples Nacional</li>
     <li><a href="https://www8.receita.fazenda.gov.br/SimplesNacional/" target="_blank" rel="noopener">Portal do Simples Nacional</a></li>
     <li><a href="https://sebrae.com.br/sites/PortalSebrae" target="_blank" rel="noopener">Sebrae</a></li>
-    <li><a href="https://www.gov.br/receitafederal/pt-br" target="_blank" rel="noopener">Receita Federal</a></li>
 </ul>
 {% endblock %}

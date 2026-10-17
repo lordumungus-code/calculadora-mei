@@ -1,0 +1,102 @@
+{% extends "calculadoras/_base.html" %}
+
+{% block h1 %}Calculadora de limite proporcional do MEI{% endblock %}
+{% block intro %}Abriu o MEI durante o ano? Seu limite não é de R$ 81 mil. Descubra o limite real e quanto ainda pode faturar.{% endblock %}
+
+{% block formulario %}
+<div class="calc-campos">
+    <div>
+        <label for="abertura">Mês de abertura do MEI</label>
+        <input type="month" id="abertura" name="abertura" required
+               max="{{ hoje.strftime('%Y-%m') }}"
+               value="{{ request.form.get('abertura', '') }}">
+        <p class="campo-ajuda">Está no Certificado da Condição de MEI (CCMEI).</p>
+    </div>
+    <div>
+        <label for="faturamento">Faturamento em {{ hoje.year }} (realizado + previsto)</label>
+        <div class="campo-moeda">
+            <span class="campo-moeda-prefixo">R$</span>
+            <input type="number" id="faturamento" name="faturamento" step="0.01" min="0" required
+                   inputmode="decimal" placeholder="Ex.: 45000"
+                   value="{{ request.form.get('faturamento', '') }}">
+        </div>
+    </div>
+</div>
+
+<label class="opcao-check">
+    <input type="checkbox" name="caminhoneiro" value="sim" {% if request.form.get('caminhoneiro') == 'sim' %}checked{% endif %}>
+    Sou MEI Caminhoneiro (limite de R$ 251.600 por ano)
+</label>
+
+<button type="submit">Calcular meu limite</button>
+{% endblock %}
+
+{% block resultado %}
+<div class="resultado-destaque">
+    <span class="resultado-rotulo">Seu limite em {{ resultado.ano }}</span>
+    <span class="resultado-valor">R$ {{ resultado.limite|brl }}</span>
+    <span class="resultado-sub">
+        {% if resultado.primeiro_ano %}{{ resultado.meses }} {{ 'mês' if resultado.meses == 1 else 'meses' }} × R$ {{ resultado.limite_mensal|brl }}{% else %}Ano completo de atividade{% endif %}
+    </span>
+</div>
+<div class="resultado-corpo">
+    {% if resultado.situacao == 'dentro' %}
+    <div class="alerta alerta-sucesso">Você está dentro do limite. Ainda pode faturar <strong>R$ {{ resultado.restante|brl }}</strong> em {{ resultado.ano }}.</div>
+    {% elif resultado.situacao == 'excesso_ate_20' %}
+    <div class="alerta alerta-warning">
+        Você passou o limite em <strong>R$ {{ resultado.excesso|brl }}</strong>, mas dentro da tolerância de 20%. Continua MEI até 31 de dezembro, paga um DAS complementar sobre o excesso (estimativa de R$ {{ resultado.imposto_excesso_min|brl }} a R$ {{ resultado.imposto_excesso_max|brl }}) e vira Microempresa a partir de 1º de janeiro de {{ resultado.ano + 1 }}.
+    </div>
+    {% else %}
+    <div class="alerta alerta-danger">
+        Você passou o limite em <strong>R$ {{ resultado.excesso|brl }}</strong>, mais de 20%. O desenquadramento é <strong>retroativo</strong> {{ 'à data de abertura' if resultado.primeiro_ano else 'a 1º de janeiro de ' ~ resultado.ano }}, e os impostos de todo o período são recalculados como Microempresa. Procure um contador.
+    </div>
+    {% endif %}
+
+    <h2>Uso do limite</h2>
+    <div class="limite-barra {% if resultado.situacao == 'excesso_ate_20' %}limite-warning{% elif resultado.situacao == 'excesso_acima_20' %}limite-danger{% endif %}"
+         role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ [resultado.percentual, 100]|min }}">
+        <span style="width: {{ [resultado.percentual, 100]|min }}%"></span>
+    </div>
+    <p class="limite-legenda"><strong>{{ resultado.percentual|string|replace('.', ',') }}%</strong> do limite usado</p>
+
+    <dl class="resumo-numeros">
+        <div><dt>Limite do ano</dt><dd>R$ {{ resultado.limite|brl }}</dd></div>
+        <div><dt>Limite + 20% de tolerância</dt><dd>R$ {{ resultado.tolerancia|brl }}</dd></div>
+        <div><dt>Seu faturamento</dt><dd>R$ {{ resultado.faturamento|brl }}</dd></div>
+    </dl>
+</div>
+{% endblock %}
+
+{% block explicacao %}
+<h2>Como funciona o limite proporcional</h2>
+<p>O limite de R$ 81.000 vale para quem ficou o <strong>ano inteiro</strong> como MEI. No ano de abertura, o limite é proporcional: <strong>R$ 6.750 por mês de atividade</strong>, contando o mês em que o CNPJ foi aberto. Para o MEI Caminhoneiro, são R$ 20.966,67 por mês.</p>
+<table>
+    <thead><tr><th>Mês de abertura</th><th>Meses no ano</th><th>Limite no 1º ano</th></tr></thead>
+    <tbody>
+        <tr><td>Janeiro</td><td>12</td><td>R$ 81.000</td></tr>
+        <tr><td>Março</td><td>10</td><td>R$ 67.500</td></tr>
+        <tr><td>Maio</td><td>8</td><td>R$ 54.000</td></tr>
+        <tr><td>Julho</td><td>6</td><td>R$ 40.500</td></tr>
+        <tr><td>Setembro</td><td>4</td><td>R$ 27.000</td></tr>
+        <tr><td>Novembro</td><td>2</td><td>R$ 13.500</td></tr>
+    </tbody>
+</table>
+
+<h2>Exemplo prático</h2>
+<p>Ana abriu o MEI em <strong>maio de 2026</strong>. Ela tem 8 meses de atividade no ano, então o limite dela é de 8 × R$ 6.750 = <strong>R$ 54.000</strong>, e não R$ 81.000. Se faturar R$ 60.000 até dezembro, passa o limite em R$ 6.000 (11%). Como o excesso é menor que 20%, ela paga um DAS complementar sobre esses R$ 6.000 e vira Microempresa em janeiro de 2027.</p>
+
+<h2>O que acontece se ultrapassar</h2>
+<ul>
+    <li><strong>Até 20% acima do limite:</strong> você continua MEI até o fim do ano, paga um DAS complementar sobre o valor excedente (pelas alíquotas do Simples Nacional, de 4% a 6% conforme a atividade) e passa a ser Microempresa em 1º de janeiro do ano seguinte.</li>
+    <li><strong>Mais de 20% acima do limite:</strong> o desenquadramento é retroativo (a 1º de janeiro ou à data de abertura, se for o primeiro ano). Todos os impostos do período são recalculados como Microempresa, com multa e juros.</li>
+</ul>
+<p>Entenda os detalhes em <a href="/artigos/teto-faturamento">o que acontece se ultrapassar o limite do MEI</a> e compare os custos na <a href="/calculadora-mei-ou-me">calculadora MEI ou ME</a>.</p>
+
+<h2>Perguntas frequentes</h2>
+<h3>O mês de abertura conta inteiro?</h3>
+<p>Sim. Mesmo que o CNPJ tenha sido aberto no fim do mês, ele conta como um mês completo no cálculo do limite.</p>
+<h3>O limite proporcional vale para os anos seguintes?</h3>
+<p>Não. A partir do segundo ano, o limite volta a ser de R$ 81.000 (ou R$ 251.600 para o MEI Caminhoneiro).</p>
+<h3>Posso faturar mais em um mês e menos em outro?</h3>
+<p>Pode. O limite é anual. Os R$ 6.750 são apenas a média usada para calcular o limite proporcional, e não um teto mensal.</p>
+{% endblock %}
